@@ -1,5 +1,7 @@
 # Changelog
 
+## [0.6.0-preview] - 2020-01-29
+* feat: add scripts for adding data to TimelineClip (only loaded when a project uses Timeline)
 
 ## [0.5.1-preview] - 2020-01-26
 * chore: fix license
