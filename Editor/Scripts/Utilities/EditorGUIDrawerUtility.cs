@@ -86,6 +86,22 @@ internal static class EditorGUIDrawerUtility {
         return newDirPath;
     }
     
+//----------------------------------------------------------------------------------------------------------------------
+    internal static V DrawUndoableGUI<T, V>(T target, string undoText, V prevValue, 
+        Func<V, V> guiFunc, 
+        Action<V> updateFunc) 
+        where T: UnityEngine.Object 
+    {
+        EditorGUI.BeginChangeCheck();
+        V newValue = guiFunc(prevValue);
+        if (!EditorGUI.EndChangeCheck()) 
+            return newValue;
+        
+        Undo.RecordObject(target, undoText);
+        updateFunc(newValue);
+        return newValue;
+    }
+    
     
 //----------------------------------------------------------------------------------------------------------------------
     private static string DrawSelectFileButton(string panelDialogTitle, string filePath, string fileExtension,

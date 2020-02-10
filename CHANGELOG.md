@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.7.0-preview] - 2020-02-10
+* feat: add DrawUndoableGUI() function to draw GUI which can be undoable
+
 ## [0.6.0-preview] - 2020-01-29
 * feat: add scripts for adding data to TimelineClip (only loaded when a project uses Timeline)
 
