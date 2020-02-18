@@ -2,7 +2,7 @@
 
 
 using System;
-
+using JetBrains.Annotations;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
@@ -19,6 +19,8 @@ internal abstract class BaseExtendedClipPlayableAsset<D> : PlayableAsset where D
 //----------------------------------------------------------------------------------------------------------------------
     
     internal void BindClipData(D data) { m_clipData = data;}         
+    
+    [CanBeNull]
     internal D GetBoundClipData() { return m_clipData; }
     
     internal T BindNewClipData<T>(TimelineClip clip) where T: D, new() {

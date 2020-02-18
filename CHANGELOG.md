@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.7.1-preview] - 2020-02-18
+* fix: change some functions in BaseClipData into abstract functions explicitly
+
 ## [0.7.0-preview] - 2020-02-10
 * feat: add DrawUndoableGUI() function to draw GUI which can be undoable
 
