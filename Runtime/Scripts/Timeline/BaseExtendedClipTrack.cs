@@ -10,8 +10,7 @@ namespace Unity.FilmInternalUtilities {
 /// <summary>
 /// A track which requires its TimelineClip to store BaseClipData as an extension
 /// </summary>
-internal abstract class BaseExtendedClipTrack<P,D> : BaseTrack 
-    where P: BaseExtendedClipPlayableAsset<D>
+internal abstract class BaseExtendedClipTrack<D> : BaseTrack 
     where D: BaseClipData, new()
 {
    
@@ -29,9 +28,9 @@ internal abstract class BaseExtendedClipTrack<P,D> : BaseTrack
             if (null != m_dataCollection && m_dataCollection.ContainsKey(clip)) {                
                 data =   m_dataCollection[clip];
             } else {                
-                P sisPlayableAsset = clip.asset as P;
-                Assert.IsNotNull(sisPlayableAsset);                 
-                data = sisPlayableAsset.GetBoundClipData();
+                BaseExtendedClipPlayableAsset<D> playableAsset = clip.asset as BaseExtendedClipPlayableAsset<D>;
+                Assert.IsNotNull(playableAsset);                 
+                data = playableAsset.GetBoundClipData();
             }
 
             if (null == data) {
@@ -96,15 +95,16 @@ internal abstract class BaseExtendedClipTrack<P,D> : BaseTrack
     private void InitClipData() {
         //Initialize PlayableAssets and BaseClipData       
         foreach (TimelineClip clip in GetClips()) {
-            P sisPlayableAsset = clip.asset as P;
-            Assert.IsNotNull(sisPlayableAsset);
+            
+            BaseExtendedClipPlayableAsset<D> playableAsset = clip.asset as BaseExtendedClipPlayableAsset<D>;
+            Assert.IsNotNull(playableAsset);
 
             //Try to get existing one, either from the collection, or the clip
             D clipData = null;
             if (m_dataCollection.ContainsKey(clip)) {
                 clipData = m_dataCollection[clip];            
             } else {
-                clipData = sisPlayableAsset.GetBoundClipData();
+                clipData = playableAsset.GetBoundClipData();
             }
 
             if (null == clipData) {
@@ -114,7 +114,7 @@ internal abstract class BaseExtendedClipTrack<P,D> : BaseTrack
             //Fix the required data structure
             m_dataCollection[clip] = clipData;
             clipData.SetOwner(clip);
-            sisPlayableAsset.BindClipData(clipData);                        
+            playableAsset.BindClipData(clipData);                        
         }
         
     }

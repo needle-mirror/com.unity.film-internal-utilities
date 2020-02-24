@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.8.0-preview] - 2020-02-24
+* feat: add ExtendedClipEditorUtility, containing utility functions to modify curves on ClipData or TimelineClip
+* chore: simplify BaseExtendedClipTrack
+
 ## [0.7.1-preview] - 2020-02-18
 * fix: change some functions in BaseClipData into abstract functions explicitly
 
