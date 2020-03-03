@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.8.2-preview] - 2020-03-03
+* internal: open internals of FilmInternalUtilities to MaterialSwitch
+
 ## [0.8.1-preview] - 2020-03-01
 * internal: add TimelineClipExtensions 
 

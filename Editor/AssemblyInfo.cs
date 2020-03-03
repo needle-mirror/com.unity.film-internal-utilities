@@ -9,6 +9,9 @@
 [assembly: InternalsVisibleTo("Unity.GreasePencil.Editor")]
 [assembly: InternalsVisibleTo("Unity.GreasePencil.EditorTests")]
 
+[assembly: InternalsVisibleTo("Unity.MaterialSwitch.Editor")]
+[assembly: InternalsVisibleTo("Unity.MaterialSwitch.EditorTests")]
+
 [assembly: InternalsVisibleTo("Unity.MeshSync.Editor")]
 [assembly: InternalsVisibleTo("Unity.MeshSync.EditorTests")]
 
