@@ -9,12 +9,15 @@ using UnityEngine.Timeline;
 
 namespace Unity.FilmInternalUtilities {
 
-internal abstract class BaseExtendedClipPlayableAsset<D> : PlayableAsset where D: BaseClipData
-{
+internal abstract class BaseExtendedClipPlayableAsset<D> : PlayableAsset where D: BaseClipData {
 
-    protected virtual void OnDestroy() {          
-        m_clipData?.Destroy();           
+    private void OnDestroy() {          
+        m_clipData?.DestroyV();
+        
+        OnDestroyInternalV();
     }
+
+    protected virtual void OnDestroyInternalV() { }
     
 //----------------------------------------------------------------------------------------------------------------------
     

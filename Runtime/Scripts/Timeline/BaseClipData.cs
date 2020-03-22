@@ -28,7 +28,7 @@ internal abstract class BaseClipData : ISerializationCallbackReceiver {
     #endregion
     
 //----------------------------------------------------------------------------------------------------------------------
-    internal abstract void Destroy();
+    internal abstract void DestroyV();
     
 
 //----------------------------------------------------------------------------------------------------------------------

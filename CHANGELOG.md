@@ -1,9 +1,11 @@
 # Changelog
 
+## [0.8.4-preview] - 2020-03-22
+* internal: refactor virtual methods in timeline-related classes
+
 ## [0.8.3-preview] - 2020-03-22
 * internal: change the functions names for serialization in BaseClipData 
 * internal: add ObjectUtility utility script and its FindSceneComponents method 
-
 
 ## [0.8.2-preview] - 2020-03-03
 * internal: open internals of FilmInternalUtilities to MaterialSwitch
