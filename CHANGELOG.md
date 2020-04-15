@@ -1,5 +1,12 @@
 # Changelog
 
+
+## [0.9.0-preview] - 2020-04-15
+
+* internal: EditorGUIDrawerUtility::DrawScrollableTextAreaGUI()
+* internal: Simplify EditorGUIDrawerUtility::DrawUndoableGUI()
+* internal: OneTimeLogger class to do logging once
+
 ## [0.8.4-preview] - 2020-03-22
 * internal: refactor virtual methods in timeline-related classes
 

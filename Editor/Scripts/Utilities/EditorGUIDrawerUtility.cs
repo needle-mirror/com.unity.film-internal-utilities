@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.LowLevel;
 
 namespace Unity.FilmInternalUtilities.Editor {
 
@@ -87,13 +89,12 @@ internal static class EditorGUIDrawerUtility {
     }
     
 //----------------------------------------------------------------------------------------------------------------------
-    internal static V DrawUndoableGUI<T, V>(T target, string undoText, V prevValue, 
-        Func<V, V> guiFunc, 
-        Action<V> updateFunc) 
-        where T: UnityEngine.Object 
+    internal static V DrawUndoableGUI<V>(UnityEngine.Object target, string undoText,  
+        Func<V> guiFunc, 
+        Action<V> updateFunc)   
     {
         EditorGUI.BeginChangeCheck();
-        V newValue = guiFunc(prevValue);
+        V newValue = guiFunc();
         if (!EditorGUI.EndChangeCheck()) 
             return newValue;
         
@@ -101,7 +102,35 @@ internal static class EditorGUIDrawerUtility {
         updateFunc(newValue);
         return newValue;
     }
-    
+
+//----------------------------------------------------------------------------------------------------------------------
+    [CanBeNull]
+    internal static string DrawScrollableTextAreaGUI(UnityEngine.Object target, string label, float textAreaHeight, 
+        string prevText, ref Vector2 scrollPos, Action<string> updateFunc) 
+    {
+        GUILayout.Label(label);
+        
+        //Use reflection to access EditorGUI.ScrollableTextAreaInternal()
+        Rect rect = EditorGUILayout.GetControlRect(GUILayout.Height(textAreaHeight));
+        object[] methodParams = new object[] {
+            rect, 
+            prevText, 
+            scrollPos, 
+            EditorStyles.textArea            
+        }; 
+        EditorGUI.BeginChangeCheck();
+        object text = UnityEditorReflection.SCROLLABLE_TEXT_AREA_METHOD.Invoke(null,methodParams);
+        scrollPos = (Vector2) (methodParams[2]);
+        string newValue = text?.ToString();
+
+        if (!EditorGUI.EndChangeCheck())
+            return newValue;
+        
+        Undo.RecordObject(target, prevText);
+        updateFunc(newValue);
+        return newValue;
+    }
+
     
 //----------------------------------------------------------------------------------------------------------------------
     private static string DrawSelectFileButton(string panelDialogTitle, string filePath, string fileExtension,

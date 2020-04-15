@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.TestTools;
 
 
 namespace Unity.FilmInternalUtilities.Tests {
@@ -20,6 +22,34 @@ internal class ObjectUtilityTest {
         Object.DestroyImmediate(go);
     }
 
+//----------------------------------------------------------------------------------------------------------------------
+    
+    [Test]   
+    public void ConvertArray() {
+        Object[] objs = new Object[] {
+            new GameObject(),
+            new GameObject(),
+            new GameObject()            
+        };
+
+        GameObject[] gameObjects = ObjectUtility.ConvertArray<GameObject>(objs);
+        foreach (var gameObj in gameObjects) {
+            Assert.IsNotNull(gameObj);
+            Object.DestroyImmediate(gameObj);
+        }
+    }
+
+//----------------------------------------------------------------------------------------------------------------------
+    
+    [UnityTest]   
+    public IEnumerator Destroy() {
+        GameObject go = new GameObject();       
+        Assert.IsNotNull(go);
+        ObjectUtility.Destroy(go);
+        yield return null;
+        UnityEngine.Assertions.Assert.IsNull(go);
+    }
+    
 //----------------------------------------------------------------------------------------------------------------------
     
     private static T FindComponentWithGameObjectID<T>(IEnumerable<T> components, int goID) where T : UnityEngine.Component {

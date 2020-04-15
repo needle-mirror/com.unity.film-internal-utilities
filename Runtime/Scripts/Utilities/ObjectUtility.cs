@@ -25,6 +25,28 @@ internal static class ObjectUtility {
             }
         }
     }
+
+//----------------------------------------------------------------------------------------------------------------------       
+
+    internal static T[] ConvertArray<T>(Object[] objs) where T :  UnityEngine.Object{
+        int numObjects = objs.Length;
+        T[] ret = new T[numObjects];
+        for (int i = 0; i < numObjects; i++) {
+            ret[i] = objs[i] as T;
+        }
+        return ret;
+    }
+
+//----------------------------------------------------------------------------------------------------------------------       
+    
+    internal static void Destroy(Object obj) {
+        if (Application.isPlaying) {
+            Object.Destroy(obj);
+        } else {
+            Object.DestroyImmediate(obj);            
+        }
+    }
+    
     
 }
 
