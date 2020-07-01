@@ -30,8 +30,7 @@ internal static class EditorGUIDrawerUtility {
         string panelDialogTitle, 
         string initialFilePath, 
         string fileExtension,
-        Action onReload,
-        Func<string, string> onValidFileSelected)
+        Action onReload)
     {
 
         string newFilePath = null;
@@ -39,7 +38,7 @@ internal static class EditorGUIDrawerUtility {
             DrawSelectableText(label, initialFilePath);
             newFilePath = ReceiveDragAndDropFromLastGUI(initialFilePath);
             DrawReloadButton(onReload);           
-            newFilePath = DrawSelectFileButton(panelDialogTitle,newFilePath,fileExtension, onValidFileSelected);
+            newFilePath = DrawSelectFileButton(panelDialogTitle,newFilePath,fileExtension);
         }
         
         using (new EditorGUILayout.HorizontalScope()) {
@@ -67,8 +66,7 @@ internal static class EditorGUIDrawerUtility {
     public static string DrawFolderSelectorGUI(string label, 
         string panelDialogTitle, 
         string initialFolderPath, 
-        Action onReload,        
-        Func<string, string> onValidFolderSelected)
+        Action onReload)
     {
 
         string newDirPath = null;
@@ -76,7 +74,7 @@ internal static class EditorGUIDrawerUtility {
             DrawSelectableText(label, initialFolderPath);
             newDirPath = ReceiveDragAndDropFromLastGUI(initialFolderPath);           
             DrawReloadButton(onReload);            
-            newDirPath = DrawSelectFolderButton(panelDialogTitle, newDirPath, onValidFolderSelected);
+            newDirPath = DrawSelectFolderButton(panelDialogTitle, newDirPath);
         }
         
         using (new EditorGUILayout.HorizontalScope()) {
@@ -133,8 +131,7 @@ internal static class EditorGUIDrawerUtility {
 
     
 //----------------------------------------------------------------------------------------------------------------------
-    private static string DrawSelectFileButton(string panelDialogTitle, string filePath, string fileExtension,
-        Func<string, string> onValidFileSelected) 
+    private static string DrawSelectFileButton(string panelDialogTitle, string filePath, string fileExtension) 
     {
         bool buttonPressed = DrawTextureButton("d_Project@2x", "Select");
         if (!buttonPressed) 
@@ -142,35 +139,31 @@ internal static class EditorGUIDrawerUtility {
         
         string dir          = PathUtility.GetDirectoryName(filePath);
         string selectedFile = EditorUtility.OpenFilePanel(panelDialogTitle, dir,fileExtension);
-        return ValidatePanelResult(selectedFile, onValidFileSelected);        
+        
+        if(!string.IsNullOrEmpty(selectedFile)) {
+            return selectedFile;
+        }
+
+        return filePath;       
     }
     
 //----------------------------------------------------------------------------------------------------------------------    
     
-    private static string DrawSelectFolderButton(string title, string folderPath, 
-        Func<string, string> onValidFolderSelected) 
+    private static string DrawSelectFolderButton(string title, string folderPath) 
     {
         bool buttonPressed = DrawTextureButton("d_Project@2x", "Select");
         if (!buttonPressed) 
             return folderPath;
         
         string selectedFolder = EditorUtility.OpenFolderPanel(title, folderPath, "");
-        return ValidatePanelResult(selectedFolder, onValidFolderSelected);
-    }
-    
-//----------------------------------------------------------------------------------------------------------------------
-
-    private static string ValidatePanelResult(string panelResult, Func<string, string> onSelected) {
-        if(!string.IsNullOrEmpty(panelResult)) {
-            string newResult = null;                    
-            newResult = (onSelected != null) ? onSelected(panelResult) : panelResult;
-            return newResult;
-        } else {
-            GUIUtility.ExitGUI(); //prevent error when cancel is pressed                
+        
+        if(!string.IsNullOrEmpty(selectedFolder)) {
+            return selectedFolder;
         }
-        return panelResult;
-    } 
-    
+
+        return folderPath;               
+    }
+        
 
 //----------------------------------------------------------------------------------------------------------------------
     private static string ReceiveDragAndDropFromLastGUI(string val) {

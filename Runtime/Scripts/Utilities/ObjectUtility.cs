@@ -39,11 +39,11 @@ internal static class ObjectUtility {
 
 //----------------------------------------------------------------------------------------------------------------------       
     
-    internal static void Destroy(Object obj) {
-        if (Application.isPlaying) {
-            Object.Destroy(obj);
+    internal static void Destroy(Object obj, bool forceImmediate = false) {
+        if (!Application.isPlaying || forceImmediate) {
+            Object.DestroyImmediate(obj);                        
         } else {
-            Object.DestroyImmediate(obj);            
+            Object.Destroy(obj);            
         }
     }
     

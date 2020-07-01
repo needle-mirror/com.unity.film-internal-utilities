@@ -9,18 +9,63 @@ namespace Unity.FilmInternalUtilities.Tests {
 internal class AssetUtilityTest {
 
     [Test]
-    [UnityPlatform(RuntimePlatform.WindowsEditor)]
-    
+    [UnityPlatform(RuntimePlatform.WindowsEditor)]    
     public void NormalizeAssetPathOnWindows() {
 
-        string unityAssetPath = Path.Combine(Application.dataPath, "Foo.prefab").Replace(Path.DirectorySeparatorChar,'/'); 
-        const string NON_UNITY_ASSET_PATH = @"C:/NonUnityProject/Foo.prefab";
+        const string ASSET_FILE = "Foo.prefab";
 
-        string normalizedUnityAssetPath = AssetUtility.NormalizeAssetPath(unityAssetPath);
-        Assert.AreEqual("Assets/Foo.prefab", normalizedUnityAssetPath);
+        //Under Assets
+        string unityAssetPath = Path.Combine(Application.dataPath, ASSET_FILE).Replace(Path.DirectorySeparatorChar,'/'); 
+        VerifyNormalizedPath(unityAssetPath, $"Assets/{ASSET_FILE}");
+        VerifyNormalizedPath($"Assets/{ASSET_FILE}", $"Assets/{ASSET_FILE}");                
 
-        string normalizedNonUnityAssetPath = AssetUtility.NormalizeAssetPath(NON_UNITY_ASSET_PATH);
-        Assert.AreEqual(NON_UNITY_ASSET_PATH, normalizedNonUnityAssetPath);
+        //Inside project, outside Assets
+        string projectRoot = PathUtility.GetDirectoryName(Application.dataPath);
+        VerifyNormalizedPath($"{ASSET_FILE}", $"{ASSET_FILE}");                
+        VerifyNormalizedPath($"{projectRoot}/{ASSET_FILE}", $"{ASSET_FILE}");
+        VerifyNormalizedPath($"{projectRoot}", "");
+        
+        //Outside project
+        const string NON_UNITY_ASSET_PATH = @"C:/NonUnityProject/" + ASSET_FILE;
+        VerifyNormalizedPath(NON_UNITY_ASSET_PATH, NON_UNITY_ASSET_PATH);
+
+        
+    }
+
+//----------------------------------------------------------------------------------------------------------------------    
+
+    [Test]
+    public void VerifyAssetAndNonAssetPaths() {
+
+        const string ASSET_FILE = "Foo.prefab";
+
+        //Under Assets
+        string unityAssetPath = Path.Combine(Application.dataPath, ASSET_FILE).Replace(Path.DirectorySeparatorChar,'/'); 
+        VerifyPathIsAssetPath(unityAssetPath, true);
+        VerifyPathIsAssetPath($"Assets/{ASSET_FILE}", true);
+
+
+        //Inside project, outside Assets
+        string projectRoot = PathUtility.GetDirectoryName(Application.dataPath);
+        VerifyPathIsAssetPath($"{ASSET_FILE}", false);                
+        VerifyPathIsAssetPath($"{projectRoot}/{ASSET_FILE}", false);
+        VerifyPathIsAssetPath($"{projectRoot}", false);
+        
+        //Outside project
+        const string NON_UNITY_ASSET_PATH = @"C:/NonUnityProject/" + ASSET_FILE;
+        VerifyPathIsAssetPath(NON_UNITY_ASSET_PATH, false);       
+    }
+    
+//----------------------------------------------------------------------------------------------------------------------    
+
+    void VerifyNormalizedPath(string input, string expected) {
+        string normalizedPath = AssetUtility.NormalizeAssetPath(input);
+        Assert.AreEqual(expected, normalizedPath);        
+    }
+    
+    void VerifyPathIsAssetPath(string path, bool expectedResult) {
+        bool isAssetPath = AssetUtility.IsAssetPath(path);
+        Assert.AreEqual(expectedResult, isAssetPath);        
     }
     
 }

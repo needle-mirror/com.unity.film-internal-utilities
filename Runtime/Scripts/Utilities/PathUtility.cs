@@ -8,9 +8,10 @@ namespace Unity.FilmInternalUtilities {
 internal static class PathUtility {
 
     /// <summary>
-    /// Get the directory name of the path n-levels up 
+    /// Get the directory name of the path n-levels up.
     /// Ex: n=1. Assets/Scripts/Foo.cs => Assets/Scripts
     ///     n=2. Assets/Scripts/Foo.cs => Assets
+    /// Will return a string using the default directory separator of the OS ('/' or '\')
     /// </summary>
     /// <param name="path">the base path</param>
     /// <param name="n">how many levels up</param>

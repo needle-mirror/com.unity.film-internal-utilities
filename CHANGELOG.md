@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.10.0-preview] - 2020-07-01
+
+* internal: add ListExtensions class with RemoveNullMembers() function 
+* internal: add AssetUtility.IsAssetPath() 
+* internal: add TimelineUtility class
+* internal: add forceImmediate parameter to ObjectUtility::Destroy()
+* internal: open internals to com.unity.selection-groups
+* fix:  NormalizeAssetPath() to normalize paths under the project path
+* refactor: simplify DrawFolderSelectorGUI() and DrawFileSelectorGUI() 
 
 ## [0.9.0-preview] - 2020-04-15
 

@@ -26,6 +26,11 @@
 [assembly: InternalsVisibleTo("Unity.MeshSync.Editor")]
 [assembly: InternalsVisibleTo("Unity.MeshSync.EditorTests")]
 
+[assembly: InternalsVisibleTo("Unity.SelectionGroups")]
+[assembly: InternalsVisibleTo("Unity.SelectionGroups.Tests")]
+[assembly: InternalsVisibleTo("Unity.SelectionGroups.Editor")]
+[assembly: InternalsVisibleTo("Unity.SelectionGroups.EditorTests")]
+
 [assembly: InternalsVisibleTo("Unity.StreamingImageSequence")]
 [assembly: InternalsVisibleTo("Unity.StreamingImageSequence.Tests")]
 [assembly: InternalsVisibleTo("Unity.StreamingImageSequence.Editor")]
