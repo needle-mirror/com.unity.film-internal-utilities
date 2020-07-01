@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.10.1-preview] - 2020-07-01
+
+* fix: make TimelineClipExtensions to internal
+* fix: warnings when using Timeline 1.6.x
+
 ## [0.10.0-preview] - 2020-07-01
 
 * internal: add ListExtensions class with RemoveNullMembers() function 

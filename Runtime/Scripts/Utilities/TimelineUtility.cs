@@ -13,7 +13,7 @@ internal static class TimelineUtility {
 
 //----------------------------------------------------------------------------------------------------------------------
     internal static int CalculateNumFrames(TimelineClip clip) {
-        float fps       = clip.GetParentTrack().timelineAsset.editorSettings.fps;
+        double fps       = clip.GetParentTrack().timelineAsset.editorSettings.GetFPS();
         int   numFrames = Mathf.RoundToInt((float)(clip.duration * fps));
         return numFrames;
             
@@ -27,7 +27,7 @@ internal static class TimelineUtility {
 
 //----------------------------------------------------------------------------------------------------------------------
     internal static double CalculateTimePerFrame(TrackAsset trackAsset) {
-        float  fps          = trackAsset.timelineAsset.editorSettings.fps;
+        double fps = trackAsset.timelineAsset.editorSettings.GetFPS();
         double timePerFrame = 1.0f / fps;
         return timePerFrame;
     }

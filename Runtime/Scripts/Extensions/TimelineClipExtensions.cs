@@ -5,7 +5,7 @@ using UnityEngine.Timeline;
 
 namespace Unity.FilmInternalUtilities {
 
-public static class TimelineClipExtensions {
+internal static class TimelineClipExtensions {
     
 #if !AT_USE_TIMELINE_GE_1_5_0            
     internal static TrackAsset GetParentTrack(this TimelineClip clip) {
