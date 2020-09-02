@@ -47,6 +47,19 @@ internal static class ObjectUtility {
         }
     }
     
+//----------------------------------------------------------------------------------------------------------------------       
+    
+    /// <summary>
+    /// Create a GameObject with a Component
+    /// </summary>
+    /// <param name="goName">The name of the GameObject</param>
+    /// <typeparam name="T">The type of the Component</typeparam>
+    /// <returns>The newly created GameObject</returns>
+    internal static T CreateGameObjectWithComponent<T>(string goName) where T: Component {
+        GameObject go        = new GameObject(goName);
+        T          component = go.AddComponent<T>();
+        return component;        
+    }
     
 }
 

@@ -1,7 +1,4 @@
-﻿#if AT_USE_TIMELINE
-
-
-using System;
+﻿using System;
 using JetBrains.Annotations;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -42,4 +39,3 @@ internal abstract class BaseExtendedClipPlayableAsset<D> : PlayableAsset where D
 
 } //end namespace
 
-#endif //AT_USE_TIMELINE

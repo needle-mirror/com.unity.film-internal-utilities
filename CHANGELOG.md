@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.11.0-preview] - 2020-09-02
+
+### Added
+* feat: add utilities to create/delete Timeline assets
+* feat: add a RenderTexture extension to write to a file
+
+### Changed
+* make EditorGUIDrawerUtility::DrawUndoableGUI return success or not (bool)
+* deps: make FilmInternalUtilities directly depend on Timeline package
+
 ## [0.10.2-preview] - 2020-08-17
 
 ### Changed

@@ -1,6 +1,4 @@
-﻿#if AT_USE_TIMELINE
-
-using UnityEngine.Playables;
+﻿using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using System.Collections.Generic;
 using UnityEngine;
@@ -130,6 +128,4 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack
 
 } //end namespace
 
-//----------------------------------------------------------------------------------------------------------------------
 
-#endif //AT_USE_TIMELINE

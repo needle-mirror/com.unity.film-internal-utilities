@@ -1,6 +1,4 @@
-﻿#if AT_USE_TIMELINE
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Playables;
@@ -51,7 +49,6 @@ internal static class TimelineUtility {
 
 }
 
-} //ena namespace
+} //end namespace
 
 
-#endif //AT_USE_TIMELINE

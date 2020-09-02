@@ -1,6 +1,4 @@
-﻿#if AT_USE_TIMELINE
-
-using UnityEngine.Timeline;
+﻿using UnityEngine.Timeline;
 
 namespace Unity.FilmInternalUtilities
 {    
@@ -10,6 +8,3 @@ internal abstract class BaseTrack : TrackAsset {
 }
 
 } //end namespace
-
-
-#endif //AT_USE_TIMELINE

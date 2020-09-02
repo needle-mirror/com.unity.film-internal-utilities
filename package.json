@@ -2,20 +2,21 @@
   "displayName": "Film Internal Utilities",
   "name": "com.unity.film-internal-utilities",
   "unity": "2019.4",
-  "version": "0.10.2-preview",
+  "version": "0.11.0-preview",
   "description": "A package containing internal utility functions to support the development of film packages/modules for Unity",
   "dependencies": {
-    "com.unity.modules.uielements": "1.0.0"
+    "com.unity.modules.uielements": "1.0.0",
+    "com.unity.timeline": "1.2.14"
   },
   "contributors": [
     "Sindharta Tanuwijaya <sindharta.tanuwijaya@unity3d.com> (https://github.com/sindharta)"
   ],
   "upmCi": {
-    "footprint": "c71a1b9372afc12362d43f8c2d02cb0ad940734c"
+    "footprint": "b36db8415c2d43ef965bc25cfe301b87fa6c1222"
   },
   "repository": {
     "url": "https://github.com/Unity-Technologies/AnimeSolution.git",
     "type": "git",
-    "revision": "ac3e378622c3295f875031f7f2cc7b3255c652e7"
+    "revision": "d3e394fb5d08d9aca90d993dcc8aa5d80b480b84"
   }
 }

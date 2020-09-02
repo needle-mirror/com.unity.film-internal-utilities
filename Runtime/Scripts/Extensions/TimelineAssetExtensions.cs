@@ -1,6 +1,4 @@
 ﻿
-#if AT_USE_TIMELINE
-
 using UnityEngine.Timeline;
 
 namespace Unity.FilmInternalUtilities {
@@ -21,4 +19,3 @@ internal static class TimelineAssetExtensions {
 
 } //end namespace
 
-#endif //AT_USE_TIMELINE

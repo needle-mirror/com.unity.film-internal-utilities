@@ -17,11 +17,6 @@
     "versionDefines": [
         {
             "name": "com.unity.timeline",
-            "expression": "",
-            "define": "AT_USE_TIMELINE"
-        },
-        {
-            "name": "com.unity.timeline",
             "expression": "1.5.0-preview",
             "define": "AT_USE_TIMELINE_GE_1_5_0"
         }

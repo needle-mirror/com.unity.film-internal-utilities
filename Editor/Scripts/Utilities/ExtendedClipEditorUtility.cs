@@ -1,6 +1,4 @@
-﻿#if AT_USE_TIMELINE
-
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 using UnityEditor.Timeline;
 using UnityEngine.Assertions;
@@ -98,4 +96,3 @@ internal static class ExtendedClipEditorUtility {
 } //end namespace
 
 
-#endif //AT_USE_TIMELINE

@@ -87,18 +87,19 @@ internal static class EditorGUIDrawerUtility {
     }
     
 //----------------------------------------------------------------------------------------------------------------------
-    internal static V DrawUndoableGUI<V>(UnityEngine.Object target, string undoText,  
+    //returns true if the GUI is changed, false otherwise
+    internal static bool DrawUndoableGUI<V>(UnityEngine.Object target, string undoText,  
         Func<V> guiFunc, 
         Action<V> updateFunc)   
     {
         EditorGUI.BeginChangeCheck();
         V newValue = guiFunc();
         if (!EditorGUI.EndChangeCheck()) 
-            return newValue;
+            return false;
         
         Undo.RecordObject(target, undoText);
         updateFunc(newValue);
-        return newValue;
+        return true;
     }
 
 //----------------------------------------------------------------------------------------------------------------------

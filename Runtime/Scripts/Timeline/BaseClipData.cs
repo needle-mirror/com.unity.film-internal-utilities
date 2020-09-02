@@ -1,6 +1,4 @@
-﻿#if AT_USE_TIMELINE
-    
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.Timeline;
 
@@ -52,5 +50,4 @@ internal abstract class BaseClipData : ISerializationCallbackReceiver {
 
 } //end namespace
 
-#endif //AT_USE_TIMELINE
 
