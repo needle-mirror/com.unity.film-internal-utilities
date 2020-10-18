@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.11.1-preview] - 2020-10-18
+
+### Fixed
+* fix: GetOrAddComponent() was not working properly
+
+
 ## [0.11.0-preview] - 2020-09-02
 
 ### Added

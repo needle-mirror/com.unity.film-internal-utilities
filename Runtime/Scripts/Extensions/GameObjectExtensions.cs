@@ -42,7 +42,11 @@ internal static class GameObjectExtensions {
     /// <param name="gameObject">The GameObject this Component is attached to.</param>
     /// <returns>Component</returns>
     public static T GetOrAddComponent<T>(this GameObject gameObject) where T : Component {
-        return gameObject.GetComponent<T>() ?? gameObject.AddComponent<T>();
+        
+        T ret = gameObject.GetComponent<T>();
+        if (ret == null)
+            ret = gameObject.AddComponent<T>();
+        return ret;        
     }
 
    
