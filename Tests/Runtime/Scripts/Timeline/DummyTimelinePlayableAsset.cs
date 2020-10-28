@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.PlayerLoop;
 using UnityEngine.Timeline;
 
 
@@ -18,7 +19,18 @@ internal class DummyTimelinePlayableAsset : BaseExtendedClipPlayableAsset<DummyT
     public ClipCaps clipCaps {
         get { return ClipCaps.None; }
     }
+//----------------------------------------------------------------------------------------------------------------------
+
+    internal void Init() {
+        m_isInitialized = true;
+    }
+
+    internal bool IsInitialized() => m_isInitialized;
+
+//----------------------------------------------------------------------------------------------------------------------
     
+    private bool m_isInitialized = false;
+
 }
 
 } //end namespace

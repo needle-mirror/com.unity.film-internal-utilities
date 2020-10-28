@@ -22,7 +22,7 @@ internal class PackageRequestTest {
                     return;
                 }
                 foreach (PackageInfo packageInfo in packageCollectionReq.Result) {
-                    if (packageInfo.name != FilmInternalUtilitiesConstants.PACKAGE_NAME) {
+                    if (packageInfo.name != FilmInternalUtilitiesEditorConstants.PACKAGE_NAME) {
                         continue;
                     }
 

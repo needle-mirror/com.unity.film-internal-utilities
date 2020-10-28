@@ -1,5 +1,10 @@
-﻿using UnityEditor;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UIElements;
 
 
@@ -42,7 +47,66 @@ internal class UIElementsEditorUtility {
             return;
         }
         set.Add(asset);
-    }    
+    }
+    
+//----------------------------------------------------------------------------------------------------------------------
+    internal static PopupField<T> AddPopupField<T>(VisualElement parent, GUIContent content,
+    	List<T> options, T defaultValue, Action<ChangeEvent<T>> onValueChanged) 
+    {
+    	TemplateContainer templateInstance = CloneFieldTemplate();
+    	VisualElement     fieldContainer   = templateInstance.Query<VisualElement>("FieldContainer").First();
+    	PopupField<T>     popupField       = new PopupField<T>(options,defaultValue);
+    	
+    	Label label = templateInstance.Query<Label>().First();
+    	label.text    = content.text;
+    	label.tooltip = content.tooltip;
+    	popupField.RegisterValueChangedCallback( ( ChangeEvent<T> changeEvent)  => {
+	        onValueChanged(changeEvent);
+    	});
+    			
+    	fieldContainer.Add(popupField);
+    	parent.Add(templateInstance);
+    	return popupField;
+    }
+
+//----------------------------------------------------------------------------------------------------------------------
+	
+	//Support Toggle, FloatField, etc
+	internal static F AddField<F,V>(VisualElement parent, GUIContent content,
+		V initialValue, Action<ChangeEvent<V>> onValueChanged) where F: VisualElement,INotifyValueChanged<V>, new()  
+	{
+		TemplateContainer templateInstance = CloneFieldTemplate();
+		VisualElement     fieldContainer   = templateInstance.Query<VisualElement>("FieldContainer").First();
+		Label             label            = templateInstance.Query<Label>().First();
+		label.text    = content.text;
+		label.tooltip = content.tooltip;
+		      
+		F field = new F();
+		field.SetValueWithoutNotify(initialValue);
+		field.RegisterValueChangedCallback((ChangeEvent<V> changeEvent) => {
+			onValueChanged(changeEvent);
+		});        
+		      
+		fieldContainer.Add(field);
+		parent.Add(templateInstance);
+		return field;
+	}	
+
+//----------------------------------------------------------------------------------------------------------------------	
+	
+	private static TemplateContainer CloneFieldTemplate() {
+		if (null == m_fieldTemplate) {
+			m_fieldTemplate = UIElementsEditorUtility.LoadVisualTreeAsset(FIELD_TEMPLATE_PATH);			
+		}
+		Assert.IsNotNull(m_fieldTemplate);
+		return m_fieldTemplate.CloneTree();
+	}
+	
+//----------------------------------------------------------------------------------------------------------------------	
+
+	private static readonly string FIELD_TEMPLATE_PATH = Path.Combine(FilmInternalUtilitiesEditorConstants.PACKAGE_PATH,"Editor/UIElements/FieldTemplate");
+	private static VisualTreeAsset m_fieldTemplate = null;
+    
 }
 
 

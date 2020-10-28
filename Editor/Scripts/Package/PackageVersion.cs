@@ -6,40 +6,34 @@ namespace Unity.FilmInternalUtilities.Editor {
 /// A class that holds the version (semantic versioned) of a package in a structure
 /// </summary>
 internal class PackageVersion {
-    public PackageVersion() {
-        
-    }
+    
+
+    internal int? GetMajor() => m_major;
+    internal int? GetMinor() => m_minor;
+    internal int? GetPatch() => m_patch;
+    
+    internal PackageLifecycle GetLifeCycle() => m_lifecycle;
+    
+    internal string GetMetadata() => m_additionalMetadata;
     
 //----------------------------------------------------------------------------------------------------------------------
-    public PackageVersion(string semanticVer) {
-        if (!TryParse(semanticVer, out PackageVersion temp))
-            return;
-        
-        this.Major     = temp.Major;
-        this.Minor     = temp.Minor;
-        this.Patch     = temp.Patch;
-        this.Lifecycle = temp.Lifecycle;
-        this.AdditionalMetadata = temp.AdditionalMetadata;
-    }
-
-//----------------------------------------------------------------------------------------------------------------------
     
-    public override string ToString() {
-        string ret = $"{Major}.{Minor}.{Patch}";
+    public override string ToString() {        
+        string ret = $"{SingleVerToString(m_major)}.{SingleVerToString(m_minor)}.{SingleVerToString(m_patch)}";
 
-        switch (this.Lifecycle) {
+        switch (this.m_lifecycle) {
             case PackageLifecycle.RELEASED: break;
             case PackageLifecycle.PRERELEASE: ret += "-pre"; break;
             case PackageLifecycle.PREVIEW:
             case PackageLifecycle.EXPERIMENTAL: {
-                ret += "-" + Lifecycle.ToString().ToLower();
+                ret += "-" + m_lifecycle.ToString().ToLower();
                 break;                
             }
             default: break;
         }       
         
-        if (!string.IsNullOrEmpty(AdditionalMetadata)) {
-            ret += "." + AdditionalMetadata;
+        if (!string.IsNullOrEmpty(m_additionalMetadata)) {
+            ret += "." + m_additionalMetadata;
         }
 
         return ret;
@@ -55,23 +49,26 @@ internal class PackageVersion {
     /// <param name="packageVersion">The detected PackageVersion. Set to null when the parsing fails</param>
     /// <returns>true if successful, false otherwise</returns>
     public static bool TryParse(string semanticVer, out PackageVersion packageVersion) {
-        packageVersion = null;
+        packageVersion = new PackageVersion();
+        
         string[] tokens = semanticVer.Split('.');
         if (tokens.Length <= 2)
             return false;
 
-        if (!int.TryParse(tokens[0], out int major))
+        if (!TryParseSingleVer(tokens[0], out packageVersion.m_major))
             return false;
+        
 
-        if (!int.TryParse(tokens[1], out int minor))
+        if (!TryParseSingleVer(tokens[1], out packageVersion.m_minor))
             return false;
+        
 
         //Find patch and lifecycle
         string[] patches = tokens[2].Split('-');
-        if (!int.TryParse(patches[0], out int patch))
+        if (!TryParseSingleVer(patches[0], out packageVersion.m_patch))
             return false;
                
-        PackageLifecycle lifecycle = PackageLifecycle.INVALID;
+        PackageLifecycle lifecycle = PackageLifecycle.RELEASED;
         if (patches.Length > 1) {
             string lifecycleStr = patches[1].ToLower();                    
             switch (lifecycleStr) {
@@ -81,37 +78,47 @@ internal class PackageVersion {
                 default: lifecycle             = PackageLifecycle.INVALID; break;
             }
             
-        } else {
-            lifecycle = PackageLifecycle.RELEASED; 
-            
-        }
+        } 
 
-        packageVersion = new PackageVersion() {
-            Major     = major,
-            Minor     = minor,
-            Patch     = patch,
-            Lifecycle = lifecycle
-        };
+        packageVersion.m_lifecycle = lifecycle;
 
         const int METADATA_INDEX = 3;
         if (tokens.Length > METADATA_INDEX) {
-            packageVersion.AdditionalMetadata = String.Join(".",tokens, METADATA_INDEX, tokens.Length-METADATA_INDEX);
+            packageVersion.m_additionalMetadata = String.Join(".",tokens, METADATA_INDEX, tokens.Length-METADATA_INDEX);
         }
 
         return true;
+    }
 
-    } 
+//----------------------------------------------------------------------------------------------------------------------    
+    static bool TryParseSingleVer(string token, out int? version) {
+        if (token == "x") {
+            version = null;
+            return true;
+        }
+        
+        if (int.TryParse(token, out int parsedToken)) {
+            version = parsedToken;
+            return true;
+        }
+
+        version = 0;
+        return false;
+    }
+
+    static string SingleVerToString(int? ver) {
+        return null == ver ? "x" : ver.ToString();
+    }
+
     
 //----------------------------------------------------------------------------------------------------------------------
-    public int              Major;
-    public int              Minor;
-    public int              Patch;
-    public PackageLifecycle Lifecycle;
-    public string           AdditionalMetadata;
+    private int? m_major = 0;
+    private int? m_minor = 0;
+    private int? m_patch = 0;
     
+    private PackageLifecycle m_lifecycle;
+    private string           m_additionalMetadata;
     
-    
-
 }
 
 }

@@ -2,8 +2,7 @@
 
 namespace Unity.FilmInternalUtilities {
 
-
-public interface IAnimationCurveOwner {
+internal interface IAnimationCurveOwner {
     void SetAnimationCurve(AnimationCurve curve);
     AnimationCurve  GetAnimationCurve();
 }

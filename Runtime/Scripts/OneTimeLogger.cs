@@ -19,7 +19,7 @@ internal class OneTimeLogger {
     
     //True: log was output
     //False: log was not output 
-    internal bool Update(string logPrefix, string logPostFix) {
+    internal bool Update(string logPrefix="", string logPostFix="") {
         bool prevLogged = m_shouldLog;
         
         m_shouldLog = m_logConditionFunc();

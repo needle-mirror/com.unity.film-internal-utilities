@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.12.0-preview] - 2020-10-28
+
+### Added
+* internal: add GameObjectUtility to find/create GameObjects by path
+* internal: add EnumUtility function to convert enum to a list of inspector names
+* internal: add EnumUtility function to convert enum values to a list
+* internal: add TransformExtensions and find/create child and set the parent of a Transform
+* internal: add functions to add fields in UIElementsEditorUtility 
+* internal: add EditorTestUtility.WaitForFrames() 
+* internal: add BaseJsonSettings
+* internal: add AnimationCurveExtension
+* internal: add a TimelineEditor utility function to show TimelineClip in the inspector
+* internal: add a TimelineEditorReflection function to create a TimelineClip on Track
+* internal: add TimelineEditor utility functions to show/refresh TimelineWindow
+* internal: add SerializedDictionary class
+* internal: add MonoBehaviourSingleton class
+
+### Changed
+* consider files under "Packages" to be normalized as well 
+* make path functions in AssetUtility to be obsolete, and create their replacements in AssetEditorUtility
+* let PackageVersion handle "x" token 
+* add default parameters to OneTimeLogger::Update() 
+* call CreateClipOnTrack() reflection code in TimelineEditorUtility.CreateTrackAndClip(), which will trigger ClipEditor.OnCreate()
+* set IAnimationCurveOwner to internal 
+* open FilmInternalUtilities.Editor assembly to AnimeToolbox runtime code
+* make CreateGameObjectWithComponent() obsolete
+
 ## [0.11.1-preview] - 2020-10-18
 
 ### Fixed

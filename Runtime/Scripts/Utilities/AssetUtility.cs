@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using System;
 
 namespace Unity.FilmInternalUtilities {
 
@@ -8,16 +8,8 @@ namespace Unity.FilmInternalUtilities {
 /// </summary>
 internal static class AssetUtility {
 
-    /// <summary>
-    /// Normalize an absolute path under Unity project to make it relative to the Unity project folder.
-    /// Paths that are outside Unity project will be unchanged.
-    /// Will always return with directory separators using slash ('/'), but can handle both slash/backslash
-    /// as the directory separator for input. 
-    /// Ex: C:/TempUnityProject/Assets/Foo.prefab => Assets/Foo.prefab
-    ///     C:/NonUnityProject/Foo.prefab => C:/NonUnityProject/Foo.prefab
-    /// </summary>
-    /// <param name="path">The path to be normalized.</param>
-    /// <returns>The normalized path.</returns>
+    
+    [Obsolete]
     public static string NormalizeAssetPath(string path) {
         if (string.IsNullOrEmpty(path))
             return null;
@@ -41,8 +33,9 @@ internal static class AssetUtility {
     /// <summary>
     /// Returns whether the path points to a path under "Assets" folder
     /// </summary>
+    [Obsolete] 
     public static bool IsAssetPath(string path) {
-        string normalizedPath = NormalizeAssetPath(path);        
+        string normalizedPath = NormalizeAssetPath(path);
         string[] dirs = normalizedPath.Split('/');
         return (dirs.Length > 0 && dirs[0] == "Assets");
     }
@@ -52,8 +45,10 @@ internal static class AssetUtility {
     static string GetApplicationRootPath() {
         if (null != m_appRootPath)
             return m_appRootPath;
+
+        //Not using Application.dataPath because it may not be called in certain times, e.g: during serialization
         
-        m_appRootPath = PathUtility.GetDirectoryName(Application.dataPath).Replace('\\','/');
+        m_appRootPath = System.IO.Directory.GetCurrentDirectory().Replace('\\','/');
         return m_appRootPath;
     }
 
