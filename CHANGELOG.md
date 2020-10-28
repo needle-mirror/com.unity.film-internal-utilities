@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.12.1-preview] - 2020-10-28
+
+### Changed
+* considerpaths  under "Library" to be normalized 
+
 ## [0.12.0-preview] - 2020-10-28
 
 ### Added

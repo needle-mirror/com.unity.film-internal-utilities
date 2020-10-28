@@ -107,7 +107,7 @@ internal static class AssetEditorUtility {
     public static bool IsPathNormalized(string path) {
         string   normalizedPath = NormalizePath(path);
         string[] dirs           = normalizedPath.Split('/');
-        return (dirs.Length > 0 && (dirs[0] == "Assets" || dirs[0] == "Packages"));
+        return (dirs.Length > 0 && (dirs[0] == "Assets" || dirs[0] == "Packages" || dirs[0] == "Library"));
     }
     
 //----------------------------------------------------------------------------------------------------------------------    

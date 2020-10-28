@@ -74,6 +74,9 @@ internal class AssetEditorUtilityTest {
 
         //Under Packages
         VerifyPathIsAssetPath($"{FilmInternalUtilitiesEditorConstants.PACKAGE_PATH}/{ASSET_FILE}", true);
+
+        //Under Library
+        VerifyPathIsAssetPath($"Library/PackageCache/{FilmInternalUtilitiesEditorConstants.PACKAGE_NAME}/{ASSET_FILE}", true);
         
         //Inside project, outside Assets
         string projectRoot = PathUtility.GetDirectoryName(Application.dataPath);
