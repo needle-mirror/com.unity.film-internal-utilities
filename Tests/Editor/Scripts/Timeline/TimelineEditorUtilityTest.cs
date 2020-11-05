@@ -18,7 +18,8 @@ internal class TimelineEditorUtilityTest {
         if (File.Exists(TIMELINE_ASSET_PATH)) {
             AssetDatabase.DeleteAsset(TIMELINE_ASSET_PATH);
         }
-        yield return null;
+
+        yield return EditorTestsUtility.WaitForFrames(1);
     }
     
 //----------------------------------------------------------------------------------------------------------------------
@@ -39,7 +40,7 @@ internal class TimelineEditorUtilityTest {
         PlayableDirector director      = CreateDirectorWithTimelineAsset(TIMELINE_ASSET_PATH);
         TimelineAsset    timelineAsset = director.playableAsset as TimelineAsset;
         Assert.IsNotNull(timelineAsset);
-        yield return null;
+        yield return EditorTestsUtility.WaitForFrames(1);
         
         TimelineClip clip = TimelineEditorUtility.CreateTrackAndClip<DummyTimelineTrack, DummyTimelinePlayableAsset>(
             timelineAsset, "FirstTrack");
@@ -55,7 +56,7 @@ internal class TimelineEditorUtilityTest {
         PlayableDirector director      = CreateDirectorWithTimelineAsset(TIMELINE_ASSET_PATH);
         TimelineAsset    timelineAsset = director.playableAsset as TimelineAsset;
         Assert.IsNotNull(timelineAsset);
-        yield return null;
+        yield return EditorTestsUtility.WaitForFrames(1);
         
         TrackAsset track = timelineAsset.CreateTrack<DummyTimelineTrack>(null, "FooTrack");        
         TimelineClip clip = TimelineEditorReflection.CreateClipOnTrack(typeof(DummyTimelinePlayableAsset), track, 0);
@@ -63,10 +64,10 @@ internal class TimelineEditorUtilityTest {
         
         ScriptableObject editorClip = TimelineEditorUtility.SelectTimelineClipInInspector(clip);
         Assert.IsNotNull(editorClip);
-        yield return null;
+        yield return EditorTestsUtility.WaitForFrames(1);
         
         Object.DestroyImmediate(editorClip);
-        yield return null;
+        yield return EditorTestsUtility.WaitForFrames(1);
                    
         TimelineEditorUtility.DestroyAssets(clip); //Cleanup
 

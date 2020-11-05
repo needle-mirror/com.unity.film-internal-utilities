@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using JetBrains.Annotations;
 
 namespace Unity.FilmInternalUtilities {
 
@@ -11,11 +12,13 @@ internal static class PathUtility {
     /// Get the directory name of the path n-levels up.
     /// Ex: n=1. Assets/Scripts/Foo.cs => Assets/Scripts
     ///     n=2. Assets/Scripts/Foo.cs => Assets
-    /// Will return a string using the default directory separator of the OS ('/' or '\')
+    /// Will return a string using '/' as the directory separator 
     /// </summary>
     /// <param name="path">the base path</param>
     /// <param name="n">how many levels up</param>
     /// <returns>the directory name</returns>
+    
+    [CanBeNull]
     public static string GetDirectoryName(string path, int n = 1) {
         if (string.IsNullOrEmpty(path) || n<1)
             return null;
@@ -23,14 +26,10 @@ internal static class PathUtility {
         string curDir = Path.GetDirectoryName(path);
         if (null == curDir)
             return null;
+
+        curDir = curDir.Replace('\\','/');
         
-        if (n > 1) {
-            return GetDirectoryName(curDir, n - 1);
-        }
-
-        return curDir;
-
-
+        return n > 1 ? GetDirectoryName(curDir, n - 1) : curDir;
     }
     
 //----------------------------------------------------------------------------------------------------------------------

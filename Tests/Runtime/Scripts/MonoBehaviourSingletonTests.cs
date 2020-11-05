@@ -6,7 +6,7 @@ using Assert = UnityEngine.Assertions.Assert;
 
 namespace Unity.FilmInternalUtilities.Tests {
 
-internal class MonoBehaviourSingletonTest {
+internal class MonoBehaviourSingletonTests {
 
     [Test]
     public void CreateInstance() {

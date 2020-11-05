@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Unity.FilmInternalUtilities.Tests {
 
-internal class GameObjectExtensionsTest {
+internal class GameObjectExtensionsTests {
 
 
     [Test]

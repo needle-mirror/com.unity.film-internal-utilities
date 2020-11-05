@@ -5,7 +5,7 @@ using UnityEditor.PackageManager;
 using UnityEngine.TestTools;
 
 namespace Unity.FilmInternalUtilities.EditorTests {
-internal class PackageRequestTest {
+internal class PackageRequestTests {
 
 
 //----------------------------------------------------------------------------------------------------------------------

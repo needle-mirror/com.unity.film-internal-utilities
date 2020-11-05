@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -41,6 +42,59 @@ internal static class AssetEditorUtility {
 
         AssetDatabase.CreateAsset(asset, path);
     }
+    
+//----------------------------------------------------------------------------------------------------------------------
+    
+    public static T LoadAssetByGUID<T>(string guid) where T:UnityEngine.Object {
+        string path  = AssetDatabase.GUIDToAssetPath(guid);
+        T      asset = AssetDatabase.LoadAssetAtPath<T>(path);
+        return asset;
+    }        
+    
+    //return a set of paths
+    //exactAssetName: the exact asset name without extention
+    /// <summary>
+    /// return a collection of asset paths that match the requirements in the AssetDatabase
+    /// </summary>
+    /// <param name="filterPrefix">a filter similar to the filter parameter in AssetDatabase.FindAssets()</param>
+    /// <param name="exactAssetName">the exact asset name without extension</param>
+    /// <param name="searchInFolders">the folders where the search will start.</param>
+    /// <param name="shouldSearchSubFolder">should search sub-folders or not</param>
+    /// <returns></returns>
+    public static HashSet<string> FindAssetPaths(string filterPrefix, string exactAssetName=null, 
+        string[] searchInFolders = null, bool shouldSearchSubFolder = true) 
+    {
+                
+        string[] guids = AssetDatabase.FindAssets($"{filterPrefix} {exactAssetName}", searchInFolders);
+        
+        HashSet<string> foundAssetPaths = new HashSet<string>();
+        foreach (string guid in guids) {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            if (null != exactAssetName && exactAssetName != Path.GetFileNameWithoutExtension(path))
+                continue;
+
+            if (shouldSearchSubFolder || null == searchInFolders) {
+                foundAssetPaths.Add(path);
+                continue;
+            }
+
+            //exact folder required
+            string folder = PathUtility.GetDirectoryName(path,1); 
+            if (null != folder) {
+                folder = folder.Replace('\\','/');
+            }
+            
+            foreach (string searchedFolder in searchInFolders) {
+                if (folder != searchedFolder) 
+                    continue;
+                
+                foundAssetPaths.Add(path);
+                break;
+            }
+        }
+        return foundAssetPaths;
+    }
+    
     
 //----------------------------------------------------------------------------------------------------------------------
     

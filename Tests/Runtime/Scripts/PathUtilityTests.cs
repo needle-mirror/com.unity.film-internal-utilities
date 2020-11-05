@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 
 namespace Unity.FilmInternalUtilities.Tests {
-internal class PathUtilityTest
+internal class PathUtilityTests
 {
     [Test]
     [UnityPlatform(RuntimePlatform.OSXEditor)]
@@ -32,9 +32,9 @@ internal class PathUtilityTest
 
         string dirName = null;
         dirName = PathUtility.GetDirectoryName(@"C:\Program Files\Unity 2019\Unity.exe", 1);
-        Assert.AreEqual(@"C:\Program Files\Unity 2019", dirName);
+        Assert.AreEqual(@"C:/Program Files/Unity 2019", dirName);
         dirName = PathUtility.GetDirectoryName(@"C:\Program Files\Unity 2019\Contents\Images", 3);
-        Assert.AreEqual(@"C:\Program Files", dirName);
+        Assert.AreEqual(@"C:/Program Files", dirName);
         
         //Null checks
         dirName = PathUtility.GetDirectoryName(@"C:\Program Files\Unity 2019\Unity.exe", 4);

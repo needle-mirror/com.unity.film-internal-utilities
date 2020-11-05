@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 
 namespace Unity.FilmInternalUtilities.Tests {
 
-internal class ObjectExtensionsTest {
+internal class ObjectExtensionsTests {
 
     [Test]
     public void CheckNullRef() {

@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.12.2-preview] - 2020-11-05
+
+### Added
+* internal: add a utility function to load asset by GUID
+* internal: add a utility function to find asset paths
+
+### Changed
+* considerpaths  under "Library" to be normalized 
+* internal: move EditorUtility.WaitForFrames() to the Editor assembly
+* internal: make GetDirectoryName() return a string using '/' as the directory separator
+
+### Fixed
+* fix: remove ITimelineClipAsset requirement from CreateTrackAndClip() 
+
 ## [0.12.1-preview] - 2020-10-28
 
 ### Changed

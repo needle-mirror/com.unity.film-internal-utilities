@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
+using Unity.FilmInternalUtilities.Editor;
 using Unity.FilmInternalUtilities.Tests;
 using UnityEditor.SceneManagement;
 using UnityEngine;

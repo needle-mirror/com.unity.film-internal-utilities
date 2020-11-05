@@ -7,7 +7,7 @@ using UnityEngine.TestTools;
 
 namespace Unity.FilmInternalUtilities.Tests {
 
-internal class ObjectUtilityTest {
+internal class ObjectUtilityTests {
 
     [Test]   
     public void CreatePrimitiveAndFindComponents() {

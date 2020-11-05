@@ -37,7 +37,7 @@ internal static class TimelineEditorUtility {
     /// <returns>The newly created TimelineClip</returns>
     internal static TimelineClip CreateTrackAndClip<TrackType, ClipAssetType>(TimelineAsset timelineAsset, string trackName) 
         where TrackType: TrackAsset, new() 
-        where ClipAssetType : class, ITimelineClipAsset 
+        where ClipAssetType : class 
     {
         return CreateTrackAndClip(timelineAsset, trackName, typeof(TrackType), typeof(ClipAssetType));
     }

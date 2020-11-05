@@ -6,7 +6,7 @@ using Assert = UnityEngine.Assertions.Assert;
 
 namespace Unity.FilmInternalUtilities.Tests {
 
-internal class TransformExtensionsTest {
+internal class TransformExtensionsTests {
 
     [Test]
     public void FindOrCreateChildren() {

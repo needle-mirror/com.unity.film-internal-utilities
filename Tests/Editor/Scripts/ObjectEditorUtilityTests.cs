@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace Unity.FilmInternalUtilities.EditorTests {
-internal class ObjectEditorUtilityTest {
+internal class ObjectEditorUtilityTests {
                 
     [Test]
     public void Destroy() {       

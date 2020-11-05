@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace Unity.FilmInternalUtilities.Tests {
 
-internal class ListExtensionsTest {
+internal class ListExtensionsTests {
 
     [Test]
     public void RemoveNullMembersInList() {

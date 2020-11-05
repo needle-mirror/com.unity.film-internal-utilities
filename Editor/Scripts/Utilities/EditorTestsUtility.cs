@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEditor;
 
-namespace Unity.FilmInternalUtilities.EditorTests {
+namespace Unity.FilmInternalUtilities.Editor {
 
 internal static class EditorTestsUtility {
                 

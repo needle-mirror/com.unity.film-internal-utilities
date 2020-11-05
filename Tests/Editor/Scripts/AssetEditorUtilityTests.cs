@@ -1,11 +1,14 @@
-﻿using System.IO;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using NUnit.Framework;
 using Unity.FilmInternalUtilities.Editor;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.TestTools;
 
 namespace Unity.FilmInternalUtilities.EditorTests {
-internal class AssetEditorUtilityTest {
+internal class AssetEditorUtilityTests {
                 
     [Test]
     public void CreateAndDeleteScriptableObjectInDataPath() {
@@ -36,6 +39,61 @@ internal class AssetEditorUtilityTest {
     }
 
 
+//----------------------------------------------------------------------------------------------------------------------
+
+    [UnityTest]
+    public IEnumerator CreateAndLoadAsset() {
+        string materialName = "TestRunnerMaterial";
+        string path         = AssetDatabase.GenerateUniqueAssetPath($"Assets/{materialName}.mat");
+        AssetDatabase.CreateAsset(new Material(Shader.Find("Standard")),path);        
+        yield return EditorTestsUtility.WaitForFrames(1);
+
+        string[] guids = AssetDatabase.FindAssets($"t:material {materialName}");
+        Assert.IsNotNull(guids);
+        Assert.Greater(guids.Length,0);
+
+        Material mat = AssetEditorUtility.LoadAssetByGUID<Material>(guids[0]);
+        Assert.IsNotNull(mat);
+        yield return EditorTestsUtility.WaitForFrames(1);        
+
+        AssetDatabase.DeleteAsset(path);
+    }
+
+//----------------------------------------------------------------------------------------------------------------------
+    [UnityTest]
+    public IEnumerator CreateAndFindAsset() {
+
+        const string TEST_ASSETS_ROOT = "Assets/TestRunner";
+        const string MAT_FOLDER       = TEST_ASSETS_ROOT + "/Materials";
+        const string MAT_NAME         = "TestRunnerMaterial";
+        
+        Directory.CreateDirectory(MAT_FOLDER);
+        
+        string path         = AssetDatabase.GenerateUniqueAssetPath($"{MAT_FOLDER}/{MAT_NAME}.mat");
+        AssetDatabase.CreateAsset(new Material(Shader.Find("Standard")),path);        
+        yield return EditorTestsUtility.WaitForFrames(1);
+
+        HashSet<string> paths = AssetEditorUtility.FindAssetPaths("t:material", MAT_NAME);
+        Assert.AreEqual(1, paths.Count);
+        
+        //exact name
+        paths = AssetEditorUtility.FindAssetPaths("t:material", MAT_NAME.Substring(0,MAT_NAME.Length-3));
+        Assert.AreEqual(0, paths.Count);
+                
+        paths = AssetEditorUtility.FindAssetPaths("t:material", MAT_NAME, new[]{"Assets"}, shouldSearchSubFolder:true);
+        Assert.AreEqual(1, paths.Count);
+        
+        //exact folder
+        paths = AssetEditorUtility.FindAssetPaths("t:material", MAT_NAME, new[]{"Assets"}, shouldSearchSubFolder:false);
+        Assert.AreEqual(0, paths.Count);
+        yield return EditorTestsUtility.WaitForFrames(1);
+
+        AssetDatabase.DeleteAsset(path);
+        AssetDatabase.DeleteAsset(TEST_ASSETS_ROOT);        
+    }
+    
+//----------------------------------------------------------------------------------------------------------------------
+    
     [Test]
     [UnityPlatform(RuntimePlatform.WindowsEditor)]    
     public void NormalizeAssetPathOnWindows() {

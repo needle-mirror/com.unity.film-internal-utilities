@@ -8,7 +8,7 @@ using Object = UnityEngine.Object;
 
 namespace Unity.FilmInternalUtilities.Tests {
 
-internal class RenderTextureExtensionsTest {
+internal class RenderTextureExtensionsTests {
 
     [Test]
     public void WriteRenderTextureToFile() {
