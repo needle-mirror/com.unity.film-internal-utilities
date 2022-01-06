@@ -92,6 +92,15 @@ internal class UIElementsEditorUtility {
 		return field;
 	}	
 
+	//Support Toggle, FloatField, etc
+	internal static F AddField<F,V>(VisualElement parent, GUIContent content,
+		V initialValue, string className, Action<ChangeEvent<V>> onValueChanged) where F: VisualElement,INotifyValueChanged<V>, new() 
+	{
+		F field = AddField<F,V>(parent, content, initialValue, onValueChanged);
+		field.AddToClassList(className);
+		return field;
+	}	
+	
 //----------------------------------------------------------------------------------------------------------------------	
 	
 	private static TemplateContainer CloneFieldTemplate() {

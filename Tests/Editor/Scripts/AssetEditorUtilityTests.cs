@@ -144,7 +144,11 @@ internal class AssetEditorUtilityTests {
         
         //Outside project
         const string NON_UNITY_ASSET_PATH = @"C:/NonUnityProject/" + ASSET_FILE;
-        VerifyPathIsAssetPath(NON_UNITY_ASSET_PATH, false);       
+        VerifyPathIsAssetPath(NON_UNITY_ASSET_PATH, false);
+        
+        //Empty strings
+        VerifyPathIsAssetPath(null, false);
+        VerifyPathIsAssetPath("", false);
     }
     
 //----------------------------------------------------------------------------------------------------------------------    

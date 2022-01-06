@@ -159,6 +159,9 @@ internal static class AssetEditorUtility {
     /// Returns whether the path points to a path under "Assets" folder
     /// </summary>
     public static bool IsPathNormalized(string path) {
+        if (string.IsNullOrEmpty(path))
+            return false;
+            
         string   normalizedPath = NormalizePath(path);
         string[] dirs           = normalizedPath.Split('/');
         return (dirs.Length > 0 && (dirs[0] == "Assets" || dirs[0] == "Packages" || dirs[0] == "Library"));

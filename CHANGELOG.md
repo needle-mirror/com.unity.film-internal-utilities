@@ -1,6 +1,17 @@
 # Changelog
 
-## [0.12.2-preview] - 2020-11-05
+
+## [0.12.3-preview] - 2022-01-06
+
+### Changed
+* internal: add a new API to add UIElements field with a className argument
+* internal: open the editor assembly of FilmInternalUtilities to SelectionGroups.Editor 
+
+### Fixed
+* fix: check null or empty input string in IsPathNormalized() 
+
+
+## [0.12.2-preview] - 2021-11-05
 
 ### Added
 * internal: add a utility function to load asset by GUID
@@ -14,12 +25,12 @@
 ### Fixed
 * fix: remove ITimelineClipAsset requirement from CreateTrackAndClip() 
 
-## [0.12.1-preview] - 2020-10-28
+## [0.12.1-preview] - 2021-10-28
 
 ### Changed
 * considerpaths  under "Library" to be normalized 
 
-## [0.12.0-preview] - 2020-10-28
+## [0.12.0-preview] - 2021-10-28
 
 ### Added
 * internal: add GameObjectUtility to find/create GameObjects by path
@@ -46,13 +57,13 @@
 * open FilmInternalUtilities.Editor assembly to AnimeToolbox runtime code
 * make CreateGameObjectWithComponent() obsolete
 
-## [0.11.1-preview] - 2020-10-18
+## [0.11.1-preview] - 2021-10-18
 
 ### Fixed
 * fix: GetOrAddComponent() was not working properly
 
 
-## [0.11.0-preview] - 2020-09-02
+## [0.11.0-preview] - 2021-09-02
 
 ### Added
 * feat: add utilities to create/delete Timeline assets
@@ -62,7 +73,7 @@
 * make EditorGUIDrawerUtility::DrawUndoableGUI return success or not (bool)
 * deps: make FilmInternalUtilities directly depend on Timeline package
 
-## [0.10.2-preview] - 2020-08-17
+## [0.10.2-preview] - 2021-08-17
 
 ### Changed
 * test against 2021.2 too
@@ -70,7 +81,7 @@
 ### Fixed
 * ensure that FilmInternalUtilities works on all platforms
 
-## [0.10.1-preview] - 2020-07-01
+## [0.10.1-preview] - 2021-07-01
 
 ### Changed
 * make TimelineClipExtensions to internal
@@ -78,7 +89,7 @@
 ### Fixed
 * fix warnings when using Timeline 1.6.x
 
-## [0.10.0-preview] - 2020-07-01
+## [0.10.0-preview] - 2021-07-01
 
 ### Added
 * internal: add ListExtensions class with RemoveNullMembers() function 
@@ -93,7 +104,7 @@
 ### Fixed
 * fix:  NormalizeAssetPath() to normalize paths under the project path
 
-## [0.9.0-preview] - 2020-04-15
+## [0.9.0-preview] - 2021-04-15
 
 ### Added
 * internal: EditorGUIDrawerUtility::DrawScrollableTextAreaGUI()
@@ -102,12 +113,12 @@
 ### Changed
 * internal: Simplify EditorGUIDrawerUtility::DrawUndoableGUI()
 
-## [0.8.4-preview] - 2020-03-22
+## [0.8.4-preview] - 2021-03-22
 
 ### Changed
 * internal: refactor virtual methods in timeline-related classes
 
-## [0.8.3-preview] - 2020-03-22
+## [0.8.3-preview] - 2021-03-22
 
 ### Added
 * internal: add ObjectUtility utility script and its FindSceneComponents method 
@@ -115,17 +126,17 @@
 ### Changed
 * internal: change the functions names for serialization in BaseClipData 
 
-## [0.8.2-preview] - 2020-03-03
+## [0.8.2-preview] - 2021-03-03
 
 ### Changed
 * internal: open internals of FilmInternalUtilities to MaterialSwitch
 
-## [0.8.1-preview] - 2020-03-01
+## [0.8.1-preview] - 2021-03-01
 
 ### Added
 * internal: add TimelineClipExtensions 
 
-## [0.8.0-preview] - 2020-02-24
+## [0.8.0-preview] - 2021-02-24
 
 ### Added
 * add ExtendedClipEditorUtility, containing utility functions to modify curves on ClipData or TimelineClip
@@ -133,34 +144,34 @@
 ### Changed
 * simplify BaseExtendedClipTrack
 
-## [0.7.1-preview] - 2020-02-18
+## [0.7.1-preview] - 2021-02-18
 
 ### Changed
 * change some functions in BaseClipData into abstract functions explicitly
 
-## [0.7.0-preview] - 2020-02-10
+## [0.7.0-preview] - 2021-02-10
 
 ### Added
 * add DrawUndoableGUI() function to draw GUI which can be undoable
 
-## [0.6.0-preview] - 2020-01-29
+## [0.6.0-preview] - 2021-01-29
 
 ### Added
 * add scripts for adding data to TimelineClip (only loaded when a project uses Timeline)
 
-## [0.5.1-preview] - 2020-01-26
+## [0.5.1-preview] - 2021-01-26
 
 ### Fixed
 * fix license
 * fix warning in changelogs
 
-## [0.5.0-preview] - 2020-01-18
+## [0.5.0-preview] - 2021-01-18
 
 ### Changed
 * rename package name to FilmInternalUtilities
 * change all public APIs to internal, and open them only to known film assemblies
 
-## [0.4.0-preview] - 2020-01-08
+## [0.4.0-preview] - 2021-01-08
 
 ### Added
 * add a PackageVersion class to parse package version (semver) 
