@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.12.4-preview] - 2022-01-07
+
+### Changed
+* internal: add Move() extension to List 
 
 ## [0.12.3-preview] - 2022-01-06
 
