@@ -55,6 +55,53 @@ internal class SerializedDictionaryTest {
         AssetDatabase.DeleteAsset(testScenePath);
     }
 
+    [UnityTest]
+    public IEnumerator UndoAndRedoAddElements() {
+        const int                   NUM_FIRST_ADDITION = 10;
+        List<DummyScriptableObject> dummyObjects       = new List<DummyScriptableObject>();
+        
+        
+        DummySerializedDictionaryComponent comp = new GameObject().AddComponent<DummySerializedDictionaryComponent>();
+        for (int i = 0; i < NUM_FIRST_ADDITION; ++i) {
+            dummyObjects.Add(CreateDictionaryElement(comp,i));
+        }
+        yield return EditorTestsUtility.WaitForFrames(1);
+
+        Undo.PerformUndo();
+        Assert.AreEqual(0, comp.GetNumElements());
+        yield return EditorTestsUtility.WaitForFrames(1);
+        
+        Undo.PerformRedo();
+        Assert.AreEqual(NUM_FIRST_ADDITION, comp.GetNumElements());
+        yield return EditorTestsUtility.WaitForFrames(1);
+
+        //Additional
+        const int NUM_SECOND_ADDITION = 3;
+        for (int i = 0; i < NUM_SECOND_ADDITION; ++i) {
+            dummyObjects.Add(CreateDictionaryElement(comp,i));
+        }
+        yield return EditorTestsUtility.WaitForFrames(1);
+
+        Undo.PerformUndo();
+        Assert.AreEqual(NUM_FIRST_ADDITION, comp.GetNumElements());
+        yield return EditorTestsUtility.WaitForFrames(1);
+
+        const int NUM_ALL_ELEMENTS = NUM_FIRST_ADDITION + NUM_SECOND_ADDITION; 
+        Undo.PerformRedo();
+        Assert.AreEqual(NUM_ALL_ELEMENTS, comp.GetNumElements());
+        yield return EditorTestsUtility.WaitForFrames(1);
+
+        //Destroy
+        for (int i = 0; i < NUM_ALL_ELEMENTS; ++i) {
+            Object.DestroyImmediate(dummyObjects[i]);
+        }
+        yield return EditorTestsUtility.WaitForFrames(1);
+        
+        
+    }
+
+
+
 //----------------------------------------------------------------------------------------------------------------------    
 
     private static DummyScriptableObject CreateDictionaryElement(DummySerializedDictionaryComponent comp, int key) {

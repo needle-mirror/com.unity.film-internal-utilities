@@ -11,6 +11,11 @@
 [assembly: InternalsVisibleTo("Unity.AnimeToolbox.Editor")]
 [assembly: InternalsVisibleTo("Unity.AnimeToolbox.EditorTests")]
 
+[assembly: InternalsVisibleTo("Unity.GoQL")]
+[assembly: InternalsVisibleTo("Unity.GoQL.Tests")]
+[assembly: InternalsVisibleTo("Unity.GoQL.Editor")]
+[assembly: InternalsVisibleTo("Unity.GoQL.EditorTests")]
+
 [assembly: InternalsVisibleTo("Unity.GreasePencil")]
 [assembly: InternalsVisibleTo("Unity.GreasePencil.Tests")]
 [assembly: InternalsVisibleTo("Unity.GreasePencil.Editor")]

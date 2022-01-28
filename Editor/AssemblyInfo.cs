@@ -7,6 +7,10 @@
 [assembly: InternalsVisibleTo("Unity.AnimeToolbox.Editor")]
 [assembly: InternalsVisibleTo("Unity.AnimeToolbox.EditorTests")]
 
+[assembly: InternalsVisibleTo("Unity.GoQL")]
+[assembly: InternalsVisibleTo("Unity.GoQL.Editor")]
+[assembly: InternalsVisibleTo("Unity.GoQL.EditorTests")]
+
 [assembly: InternalsVisibleTo("Unity.GreasePencil")]
 [assembly: InternalsVisibleTo("Unity.GreasePencil.Editor")]
 [assembly: InternalsVisibleTo("Unity.GreasePencil.EditorTests")]

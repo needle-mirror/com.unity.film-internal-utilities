@@ -21,11 +21,8 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack
         m_serializedDataCollection = new List<D>();
         
         foreach (TimelineClip clip in GetClips()) {
-            D data = null;
 
-            if (null != m_dataCollection && m_dataCollection.ContainsKey(clip)) {                
-                data =   m_dataCollection[clip];
-            } else {                
+            if (null == m_dataCollection || !m_dataCollection.TryGetValue(clip, out D data)) {
                 BaseExtendedClipPlayableAsset<D> playableAsset = clip.asset as BaseExtendedClipPlayableAsset<D>;
                 Assert.IsNotNull(playableAsset);                 
                 data = playableAsset.GetBoundClipData();
@@ -98,10 +95,7 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack
             Assert.IsNotNull(playableAsset);
 
             //Try to get existing one, either from the collection, or the clip
-            D clipData = null;
-            if (m_dataCollection.ContainsKey(clip)) {
-                clipData = m_dataCollection[clip];            
-            } else {
+            if (!m_dataCollection.TryGetValue(clip, out D clipData)) {
                 clipData = playableAsset.GetBoundClipData();
             }
 

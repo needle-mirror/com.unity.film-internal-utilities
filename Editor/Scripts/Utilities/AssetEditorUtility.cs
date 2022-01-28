@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
 namespace Unity.FilmInternalUtilities.Editor {
@@ -79,11 +81,7 @@ internal static class AssetEditorUtility {
             }
 
             //exact folder required
-            string folder = PathUtility.GetDirectoryName(path,1); 
-            if (null != folder) {
-                folder = folder.Replace('\\','/');
-            }
-            
+            string folder = PathUtility.GetDirectoryName(path,1);
             foreach (string searchedFolder in searchInFolders) {
                 if (folder != searchedFolder) 
                     continue;
@@ -95,6 +93,28 @@ internal static class AssetEditorUtility {
         return foundAssetPaths;
     }
     
+//----------------------------------------------------------------------------------------------------------------------
+    /// <summary>
+    /// Create an asset file for the active scene, using the object name as the file name when applicable.
+    /// If the active scene has been saved, then this asset will also be saved in the scene folder.
+    /// Otherwise, the asset will be saved under the root "Assets" folder
+    /// </summary>
+    /// <param name="obj">The object to be saved to the asset file.</param>
+    /// <param name="ext">The extension of the asset file.</param>
+    /// <returns>The path to the asset</returns>
+    public static string CreateSceneAsset(Object obj, string ext = "asset") {
+        Assert.IsNotNull(obj);
+        
+        Scene  activeScene = SceneManager.GetActiveScene();
+        string assetDir    = string.IsNullOrEmpty(activeScene.path) ? "Assets" : Path.GetDirectoryName(activeScene.path);
+        string assetName   = string.IsNullOrEmpty(obj.name) ? obj.GetType().Name : obj.name;
+        string path = AssetDatabase.GenerateUniqueAssetPath(Path.Combine(assetDir, assetName) + $".{ext}");
+            
+        AssetDatabase.CreateAsset(obj, path);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+        return path;
+    }
     
 //----------------------------------------------------------------------------------------------------------------------
     

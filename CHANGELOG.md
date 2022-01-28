@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.12.5-preview] - 2022-01-28
+
+### Added
+* internal: add an internal API to create a scene asset
+
+### Changed
+* internal: open FilmInternalUtilities to GoQL 
+
+### Fixed
+* fix: check if a callback has been set in fields added by UIElementsEditorUtility.AddField() before invoking
+
 ## [0.12.4-preview] - 2022-01-07
 
 ### Changed

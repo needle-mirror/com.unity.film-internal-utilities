@@ -1,6 +1,9 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Assertions;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Unity.FilmInternalUtilities.Tests {
 
@@ -9,6 +12,9 @@ internal class DummySerializedDictionaryComponent : MonoBehaviour {
 
 
     internal void AddElement(DummyScriptableObject obj, int num) {
+#if UNITY_EDITOR
+        Undo.RecordObject(this, "Add Dictionary");
+#endif
         m_dic2019.Add(obj, num);
         m_dic2020.Add(obj, num);
     }
@@ -16,8 +22,8 @@ internal class DummySerializedDictionaryComponent : MonoBehaviour {
     internal int GetNumElements() {
 
 #if UNITY_2020_3_OR_NEWER
-        Assert.AreEqual(m_dic2019.Count, m_dic2020.Count);
-#endif        
+        UnityEngine.Assertions.Assert.AreEqual(m_dic2019.Count, m_dic2020.Count);
+#endif
         return m_dic2019.Count;
     }
     

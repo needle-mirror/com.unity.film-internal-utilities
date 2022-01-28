@@ -44,8 +44,12 @@ internal class AssetEditorUtilityTests {
     [UnityTest]
     public IEnumerator CreateAndLoadAsset() {
         string materialName = "TestRunnerMaterial";
-        string path         = AssetDatabase.GenerateUniqueAssetPath($"Assets/{materialName}.mat");
-        AssetDatabase.CreateAsset(new Material(Shader.Find("Standard")),path);        
+
+        Material createdMat = new Material(Shader.Find("Standard")) {
+            name = materialName
+        };
+        string path = AssetEditorUtility.CreateSceneAsset(createdMat,"mat");
+        
         yield return EditorTestsUtility.WaitForFrames(1);
 
         string[] guids = AssetDatabase.FindAssets($"t:material {materialName}");

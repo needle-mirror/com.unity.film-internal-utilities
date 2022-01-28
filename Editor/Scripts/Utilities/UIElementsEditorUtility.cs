@@ -61,7 +61,7 @@ internal class UIElementsEditorUtility {
     	label.text    = content.text;
     	label.tooltip = content.tooltip;
     	popupField.RegisterValueChangedCallback( ( ChangeEvent<T> changeEvent)  => {
-	        onValueChanged(changeEvent);
+	        onValueChanged?.Invoke(changeEvent);
     	});
     			
     	fieldContainer.Add(popupField);
@@ -84,8 +84,8 @@ internal class UIElementsEditorUtility {
 		F field = new F();
 		field.SetValueWithoutNotify(initialValue);
 		field.RegisterValueChangedCallback((ChangeEvent<V> changeEvent) => {
-			onValueChanged(changeEvent);
-		});        
+			onValueChanged?.Invoke(changeEvent);
+		});
 		      
 		fieldContainer.Add(field);
 		parent.Add(templateInstance);
