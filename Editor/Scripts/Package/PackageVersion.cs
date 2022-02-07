@@ -6,7 +6,11 @@ namespace Unity.FilmInternalUtilities.Editor {
 /// A class that holds the version (semantic versioned) of a package in a structure
 /// </summary>
 internal class PackageVersion {
-    
+
+    //private: force to use TryParse()
+    private PackageVersion() { }
+
+//----------------------------------------------------------------------------------------------------------------------    
 
     internal int? GetMajor() => m_major;
     internal int? GetMinor() => m_minor;

@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.13.0-preview] - 2022-02-07
+
+### Added
+* internal: BaseJsonSingleton class 
+* internal: add API to convert paths relative to "Assets" and "Resources"
+
+### Changed
+* refactor: make the constructor of PackageVersion() to private 
+
+### Fixed
+* fix: only try to create directory if applicable when serializing to json
+
 ## [0.12.5-preview] - 2022-01-28
 
 ### Added

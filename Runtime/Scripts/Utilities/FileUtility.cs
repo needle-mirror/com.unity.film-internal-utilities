@@ -78,9 +78,10 @@ internal static class FileUtility  {
     /// </param>
     /// <typeparam name="T">The type of the object</typeparam>
     public static void SerializeToJson<T>(T obj, string path, bool prettyPrint=false) {
-        string dir = Path.GetDirectoryName(path);                
-        Assert.IsFalse(string.IsNullOrEmpty(dir));
-        Directory.CreateDirectory(dir);
+        string dir = Path.GetDirectoryName(path);
+        if (!string.IsNullOrEmpty(dir)) {
+            Directory.CreateDirectory(dir);
+        }
         
         string json = JsonUtility.ToJson(obj, prettyPrint);
         File.WriteAllText(path, json);

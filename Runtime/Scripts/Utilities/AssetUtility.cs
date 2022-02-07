@@ -1,45 +1,116 @@
 ﻿using System;
+using System.IO;
+using JetBrains.Annotations;
+using UnityEngine.Assertions;
 
 namespace Unity.FilmInternalUtilities {
 
 /// <summary>
 /// A utility class for executing operations related to Unity assets.
-/// Can be executed by runtime code in the editor, but should not be executed in an executable.
 /// </summary>
 internal static class AssetUtility {
 
-    
+    //[TODO-sin: 2022-2-4] Remove this code
     [Obsolete]
     public static string NormalizeAssetPath(string path) {
+        
         if (string.IsNullOrEmpty(path))
             return null;
 
-        string slashedPath = path.Replace('\\', '/');        
+        string slashedPath = path.Replace('\\', '/');
         string projectRoot = GetApplicationRootPath();
-        
+
         if (slashedPath.StartsWith(projectRoot)) {
             string normalizedPath = slashedPath.Substring(projectRoot.Length);
             if (normalizedPath.Length > 0) {
-                normalizedPath = normalizedPath.Substring(1); //1 for additional '/'           
+                normalizedPath = normalizedPath.Substring(1); //1 for additional '/'
             }
 
             return normalizedPath;
         }
-        return slashedPath;
+        return slashedPath;                
     }
+    
+    /// <summary>
+    /// If the path starts with "Assets/" then returns the relative path under Assets.
+    /// Otherwise, returns null.
+    /// </summary>
+    /// <param name="path">The source path.</param>
+    /// <returns>The relative path.</returns>
+
+    [CanBeNull]
+    public static string ToAssetRelativePath(string path) {
+        if (string.IsNullOrEmpty(path))
+            return null;
+
+        if (!IsAssetPath(path, out string slashedPath)) 
+            return null;
+        
+        string normalizedPath = slashedPath.Substring(m_assetPathPrefix.Length);
+        return normalizedPath;
+    }
+
+    /// <summary>
+    /// If the path starts with "Assets/" then this function will find Resources folder under it,
+    /// and return a path relative to the Resources folder.
+    /// Otherwise, returns null.
+    /// </summary>
+    /// <param name="path">The source path.</param>
+    /// <returns>The relative path.</returns>
+    
+    [CanBeNull]
+    public static string ToResourcesRelativePath(string path) {
+        if (!IsAssetPath(path, out string slashedPath)) 
+            return null;
+
+        const string RESOURCE_TOKEN = "/Resources/";
+
+        int pos = path.IndexOf(RESOURCE_TOKEN, StringComparison.Ordinal);
+        if (pos < 0)
+            return null;
+        
+        pos += RESOURCE_TOKEN.Length;
+        
+        string relPath       = path.Substring(pos);
+        string dir           = Path.GetDirectoryName(relPath);
+        string fileNameNoExt = Path.GetFileNameWithoutExtension(relPath);
+
+
+        return string.IsNullOrEmpty(dir) ? fileNameNoExt : $"{dir.Replace('\\','/')}/{fileNameNoExt}";
+    }
+    
 
 //----------------------------------------------------------------------------------------------------------------------
 
     /// <summary>
     /// Returns whether the path points to a path under "Assets" folder
     /// </summary>
+    //[TODO-sin: 2022-2-4] Remove this code
     [Obsolete] 
     public static bool IsAssetPath(string path) {
-        string normalizedPath = NormalizeAssetPath(path);
-        string[] dirs = normalizedPath.Split('/');
+        string   normalizedPath = NormalizeAssetPath(path);
+        string[] dirs           = normalizedPath.Split('/');
         return (dirs.Length > 0 && dirs[0] == "Assets");
     }
     
+    /// <summary>
+    /// Returns whether the path is under "Assets" folder
+    /// </summary>    
+    
+    public static bool IsAssetPath(string path, out string convertedPath) {
+        if (null == path) {
+            convertedPath = null;
+            return false;
+        }
+        
+        Assert.IsNotNull(path);
+        convertedPath = path.Replace('\\', '/');
+        return convertedPath.StartsWith(m_assetPathPrefix);
+    }
+
+
+
+
 //----------------------------------------------------------------------------------------------------------------------    
 
     static string GetApplicationRootPath() {
@@ -47,15 +118,17 @@ internal static class AssetUtility {
             return m_appRootPath;
 
         //Not using Application.dataPath because it may not be called in certain times, e.g: during serialization
-        
+
         m_appRootPath = System.IO.Directory.GetCurrentDirectory().Replace('\\','/');
         return m_appRootPath;
     }
-
+    
 //----------------------------------------------------------------------------------------------------------------------    
 
-    private static string m_appRootPath = null;
-
+    private static string m_appRootPath     = null;
+    
+    private const  string m_assetPathPrefix = "Assets/";
+        
 }
 
 } //end namespace

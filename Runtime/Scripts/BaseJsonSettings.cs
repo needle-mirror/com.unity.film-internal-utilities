@@ -1,11 +1,12 @@
 ﻿using System;
 using System.IO;
-using Unity.FilmInternalUtilities;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 
 namespace Unity.FilmInternalUtilities {
 
+//[TODO-sin: 2022-02-04] Remove this later
 [Serializable]
 internal abstract class BaseJsonSettings  {
 
@@ -62,6 +63,5 @@ internal abstract class BaseJsonSettings  {
 
 
 }
-
 
 } //end namespace
