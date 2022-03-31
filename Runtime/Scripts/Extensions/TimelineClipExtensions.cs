@@ -1,4 +1,5 @@
 ﻿
+using JetBrains.Annotations;
 using UnityEngine.Timeline;
 
 namespace Unity.FilmInternalUtilities {
@@ -15,6 +16,17 @@ internal static class TimelineClipExtensions {
     }
     
 #endif
+
+    [CanBeNull]
+    internal static T GetClipData<T>(this TimelineClip clip) where T: BaseClipData {
+        
+        BaseExtendedClipPlayableAsset<T> clipAsset = clip.asset as BaseExtendedClipPlayableAsset<T>;
+        if (null == clipAsset)
+            return null;
+        
+        T clipData = clipAsset.GetBoundClipData();
+        return clipData;
+    }
 }
 
 } //end namespace

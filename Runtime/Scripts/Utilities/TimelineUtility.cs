@@ -46,6 +46,60 @@ internal static class TimelineUtility {
 
         return clipAssets;
     }
+    
+//----------------------------------------------------------------------------------------------------------------------
+    //Only returns one clip if found. Does not support blended clips.
+    internal static void GetActiveTimelineClipInto<T>( IEnumerable<TimelineClip> sortedClips, double directorTime, 
+        out TimelineClip outClip, out T outAsset) where T: PlayableAsset 
+    {
+
+        TimelineClip prevClipWithPostExtrapolation = null;
+        TimelineClip nextClipWithPreExtrapolation  = null;
+        bool         nextClipChecked               = false; 
+               
+        foreach (TimelineClip clip in sortedClips) {
+
+
+            if (directorTime < clip.start) {
+                //must check only once since we loop from the start
+                if (!nextClipChecked) { 
+                    //store next direct clip which has PreExtrapolation
+                    nextClipWithPreExtrapolation = clip.hasPreExtrapolation ? clip : null;
+                    nextClipChecked              = true;
+                }
+
+                continue;
+            }
+
+            if (clip.end <= directorTime) {
+                //store prev direct clip which has PostExtrapolation
+                prevClipWithPostExtrapolation = clip.hasPostExtrapolation ? clip : null;
+                continue;                
+            }
+
+            outClip  = clip;
+            outAsset = clip.asset as T;
+            return;
+        }
+        
+        
+        //check for post-extrapolation
+        if (null != prevClipWithPostExtrapolation) {
+            outClip  = prevClipWithPostExtrapolation;
+            outAsset = prevClipWithPostExtrapolation.asset as T;
+            return;
+        }
+
+        //check pre-extrapolation for the first clip
+        if (null!=nextClipWithPreExtrapolation) {
+            outClip  = nextClipWithPreExtrapolation;
+            outAsset = nextClipWithPreExtrapolation.asset as T;
+            return;
+        }        
+        outClip  = null;
+        outAsset = null;
+    }
+    
 
 }
 

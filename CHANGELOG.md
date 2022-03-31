@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.14.0-preview] - 2022-03-31
+
+### Added
+* internal: add a function to get the active TimelineClip given a set of clips and time
+* internal: add GUILayoutUtility
+* internal: add a utility function to do operations on ExposedReference 
+* internal: add a function to get ClipData from TimelineClip
+* internal: add a function to find all descendants of a GameObjec
+
+### Changed
+* deps: update dependency to com.unity.timeline@1.2.18
+
 ## [0.13.0-preview] - 2022-02-07
 
 ### Added

@@ -23,6 +23,17 @@ internal static class TransformExtensions {
             t.SetParent(parent);
         }
     }
+
+    internal static IEnumerable<Transform> FindAllDescendants(this Transform t) {
+        for (int i = 0; i < t.childCount; ++i) {
+            Transform child = t.GetChild(i);
+            yield return child;
+            foreach (Transform grandChild in FindAllDescendants(child)) {
+                yield return grandChild;
+            }
+
+        }
+    }
     
 }
 

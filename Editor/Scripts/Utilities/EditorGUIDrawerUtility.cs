@@ -168,7 +168,7 @@ internal static class EditorGUIDrawerUtility {
 
 //----------------------------------------------------------------------------------------------------------------------
     private static string ReceiveDragAndDropFromLastGUI(string val) {
-        Rect lastGUIRect = GUILayoutUtility.GetLastRect();
+        Rect lastGUIRect = UnityEngine.GUILayoutUtility.GetLastRect();
         
         Event evt = Event.current;
         switch (evt.type) {
