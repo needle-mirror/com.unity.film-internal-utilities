@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.14.1-preview] - 2022-04-04
+
+### Added
+* internal: add YieldUtility and YieldEditorUtility
+
+### Fixed
+* fix: init clips earlier for tracks derived from BaseExtendedClipTrack
+* internal: make functions in GUILayoutUtility to internal 
+
 ## [0.14.0-preview] - 2022-03-31
 
 ### Added

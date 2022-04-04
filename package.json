@@ -2,7 +2,7 @@
   "displayName": "Film Internal Utilities",
   "name": "com.unity.film-internal-utilities",
   "unity": "2019.4",
-  "version": "0.14.0-preview",
+  "version": "0.14.1-preview",
   "description": "A package containing internal utility functions to support the development of film packages/modules for Unity",
   "dependencies": {
     "com.unity.modules.uielements": "1.0.0",
@@ -12,14 +12,14 @@
     "Sindharta Tanuwijaya <sindharta.tanuwijaya@unity3d.com> (https://github.com/sindharta)"
   ],
   "upm": {
-    "changelog": "### Added\r\n* internal: add a function to get the active TimelineClip given a set of clips and time\r\n* internal: add GUILayoutUtility\r\n* internal: add a utility function to do operations on ExposedReference \r\n* internal: add a function to get ClipData from TimelineClip\r\n* internal: add a function to find all descendants of a GameObjec\r\n\r\n### Changed\r\n* deps: update dependency to com.unity.timeline@1.2.18"
+    "changelog": "### Added\r\n* internal: add YieldUtility and YieldEditorUtility\r\n\r\n### Fixed\r\n* fix: init clips earlier for tracks derived from BaseExtendedClipTrack\r\n* internal: make functions in GUILayoutUtility to internal"
   },
   "upmCi": {
-    "footprint": "f5931fb82868898f45a48b24018b9c1cf02f34b4"
+    "footprint": "f520e98c9e6bf51b7a9994713fa52c3da3d357b1"
   },
   "repository": {
     "url": "https://github.com/Unity-Technologies/AnimeSolution.git",
     "type": "git",
-    "revision": "5a2d19f72652f75b1e7f4001ac64503c5f1f1141"
+    "revision": "dc7998afd06220e8d6289e326a39bfec6fe59a07"
   }
 }

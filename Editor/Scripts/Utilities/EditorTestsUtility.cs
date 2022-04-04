@@ -1,17 +1,15 @@
-﻿using System.Collections;
-using UnityEditor;
+﻿using System;
+using System.Collections;
 
 namespace Unity.FilmInternalUtilities.Editor {
 
 internal static class EditorTestsUtility {
                 
+    [Obsolete("Replaced by YieldEditorUtility.WaitForFramesAndIncrementUndo()")]
     internal static IEnumerator WaitForFrames(int numFrames) {
-        for (int i = 0; i < numFrames; ++i) {
-            yield return null;
-            
-        }        
-        Undo.IncrementCurrentGroup();
-    }        
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(numFrames);
+    }
+    
 }
 
 } //end namespace

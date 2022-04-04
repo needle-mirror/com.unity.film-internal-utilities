@@ -50,7 +50,7 @@ internal class AssetEditorUtilityTests {
         };
         string path = AssetEditorUtility.CreateSceneAsset(createdMat,"mat");
         
-        yield return EditorTestsUtility.WaitForFrames(1);
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(1);
 
         string[] guids = AssetDatabase.FindAssets($"t:material {materialName}");
         Assert.IsNotNull(guids);
@@ -58,7 +58,7 @@ internal class AssetEditorUtilityTests {
 
         Material mat = AssetEditorUtility.LoadAssetByGUID<Material>(guids[0]);
         Assert.IsNotNull(mat);
-        yield return EditorTestsUtility.WaitForFrames(1);        
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(1);        
 
         AssetDatabase.DeleteAsset(path);
     }
@@ -75,7 +75,7 @@ internal class AssetEditorUtilityTests {
         
         string path         = AssetDatabase.GenerateUniqueAssetPath($"{MAT_FOLDER}/{MAT_NAME}.mat");
         AssetDatabase.CreateAsset(new Material(Shader.Find("Standard")),path);        
-        yield return EditorTestsUtility.WaitForFrames(1);
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(1);
 
         HashSet<string> paths = AssetEditorUtility.FindAssetPaths("t:material", MAT_NAME);
         Assert.AreEqual(1, paths.Count);
@@ -90,7 +90,7 @@ internal class AssetEditorUtilityTests {
         //exact folder
         paths = AssetEditorUtility.FindAssetPaths("t:material", MAT_NAME, new[]{"Assets"}, shouldSearchSubFolder:false);
         Assert.AreEqual(0, paths.Count);
-        yield return EditorTestsUtility.WaitForFrames(1);
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(1);
 
         AssetDatabase.DeleteAsset(path);
         AssetDatabase.DeleteAsset(TEST_ASSETS_ROOT);        

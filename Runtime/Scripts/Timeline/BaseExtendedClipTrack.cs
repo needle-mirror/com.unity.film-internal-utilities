@@ -11,7 +11,13 @@ namespace Unity.FilmInternalUtilities {
 internal abstract class BaseExtendedClipTrack<D> : BaseTrack 
     where D: BaseClipData, new()
 {
-   
+    
+    void OnEnable() {
+        InitClipData();
+        OnEnableInternalV();
+    }
+
+    protected virtual void OnEnableInternalV() { }
     
     
 //----------------------------------------------------------------------------------------------------------------------

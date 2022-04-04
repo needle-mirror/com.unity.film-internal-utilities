@@ -20,7 +20,7 @@ internal class TimelineEditorUtilityTest {
             AssetDatabase.DeleteAsset(TIMELINE_ASSET_PATH);
         }
 
-        yield return EditorTestsUtility.WaitForFrames(1);
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(1);
     }
     
 //----------------------------------------------------------------------------------------------------------------------
@@ -39,13 +39,13 @@ internal class TimelineEditorUtilityTest {
     [UnityTest]
     public IEnumerator CreateClip() {
         PlayableDirector director = CreateDirectorWithTimelineAsset(TIMELINE_ASSET_PATH,out TimelineAsset timelineAsset);
-        yield return EditorTestsUtility.WaitForFrames(1);
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(1);
         
         TimelineClip clip = TimelineEditorUtility.CreateTrackAndClip<DummyTimelineTrack, DummyTimelinePlayableAsset>(
             timelineAsset, "FirstTrack");
         VerifyClip(clip);
         TimelineEditorUtility.SelectDirectorInTimelineWindow(director); //trigger the TimelineWindow's update etc.
-        yield return EditorTestsUtility.WaitForFrames(3);
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(3);
         
         DummyTimelineClipData clipData = clip.GetClipData<DummyTimelineClipData>();
         Assert.IsNotNull(clipData);
@@ -58,7 +58,7 @@ internal class TimelineEditorUtilityTest {
     [UnityTest]
     public IEnumerator ShowClipInInspector() {
         CreateDirectorWithTimelineAsset(TIMELINE_ASSET_PATH,out TimelineAsset timelineAsset);
-        yield return EditorTestsUtility.WaitForFrames(1);
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(1);
         
         TrackAsset track = timelineAsset.CreateTrack<DummyTimelineTrack>(null, "FooTrack");        
         TimelineClip clip = TimelineEditorReflection.CreateClipOnTrack(typeof(DummyTimelinePlayableAsset), track, 0);
@@ -66,10 +66,10 @@ internal class TimelineEditorUtilityTest {
         
         ScriptableObject editorClip = TimelineEditorUtility.SelectTimelineClipInInspector(clip);
         Assert.IsNotNull(editorClip);
-        yield return EditorTestsUtility.WaitForFrames(1);
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(1);
         
         Object.DestroyImmediate(editorClip);
-        yield return EditorTestsUtility.WaitForFrames(1);
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(1);
                    
         TimelineEditorUtility.DestroyAssets(clip); //Cleanup
 
@@ -81,7 +81,7 @@ internal class TimelineEditorUtilityTest {
     public IEnumerator DetectActiveClip() {
         PlayableDirector director = CreateDirectorWithTimelineAsset(TIMELINE_ASSET_PATH,out TimelineAsset timelineAsset);
         TimelineEditorUtility.SelectDirectorInTimelineWindow(director); //trigger the TimelineWindow's update etc.
-        yield return EditorTestsUtility.WaitForFrames(1);
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(1);
         
         TrackAsset         track     = timelineAsset.CreateTrack<DummyTimelineTrack>(null, "FooTrack");
         List<TimelineClip> clips     = new List<TimelineClip>();
@@ -95,7 +95,7 @@ internal class TimelineEditorUtilityTest {
             nextClipStart      += curClip.duration;
             clips.Add(curClip);
             
-            yield return EditorTestsUtility.WaitForFrames(1);
+            yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(1);
         }
 
         //Check that all clips have been created successfully
@@ -106,7 +106,7 @@ internal class TimelineEditorUtilityTest {
             trackClipsToCheck.Remove(clips[i]);
         }
         NUnit.Framework.Assert.Zero(trackClipsToCheck.Count);
-        yield return EditorTestsUtility.WaitForFrames(3);
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(3);
         
         //Ensure the active clip can be detected
         for (int i = 0; i < NUM_CLIPS; ++i) {
@@ -116,7 +116,7 @@ internal class TimelineEditorUtilityTest {
             Assert.AreEqual(curClip, detectedClip);
         }
        
-        yield return EditorTestsUtility.WaitForFrames(1);
+        yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(1);
                    
         TimelineEditorUtility.DestroyAssets(timelineAsset); //Cleanup
 
