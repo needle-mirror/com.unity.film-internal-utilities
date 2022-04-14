@@ -42,10 +42,19 @@ internal static class ObjectUtility {
 //----------------------------------------------------------------------------------------------------------------------       
     
     internal static void Destroy(Object obj, bool forceImmediate = false) {
+
+        //Handle differences between editor/runtime when destroying immediately
+#if UNITY_EDITOR
         if (!Application.isPlaying || forceImmediate) {
-            Object.DestroyImmediate(obj);                        
-        } else {
-            Object.Destroy(obj);            
+            Undo.DestroyObjectImmediate(obj);
+        }
+#else
+        if (forceImmediate) {
+            Object.DestroyImmediate(obj);
+        }
+#endif
+        else {
+            Object.Destroy(obj);
         }
     }
     

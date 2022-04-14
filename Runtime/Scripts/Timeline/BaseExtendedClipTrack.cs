@@ -98,7 +98,8 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack
         foreach (TimelineClip clip in GetClips()) {
             
             BaseExtendedClipPlayableAsset<D> playableAsset = clip.asset as BaseExtendedClipPlayableAsset<D>;
-            Assert.IsNotNull(playableAsset);
+            if (null == playableAsset)
+                continue;
 
             //Try to get existing one, either from the collection, or the clip
             if (!m_dataCollection.TryGetValue(clip, out D clipData)) {

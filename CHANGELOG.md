@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.14.2-preview] - 2022-04-14
+
+### Changed
+* internal: use Undo.DestroyObjectImmediate() if applicable inside ObjectUtility.Destroy() 
+
+### Fixed
+* fix: null check of PlayableAsset when initializing clip data
+
 ## [0.14.1-preview] - 2022-04-04
 
 ### Added

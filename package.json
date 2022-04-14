@@ -2,7 +2,7 @@
   "displayName": "Film Internal Utilities",
   "name": "com.unity.film-internal-utilities",
   "unity": "2019.4",
-  "version": "0.14.1-preview",
+  "version": "0.14.2-preview",
   "description": "A package containing internal utility functions to support the development of film packages/modules for Unity",
   "dependencies": {
     "com.unity.modules.uielements": "1.0.0",
@@ -12,14 +12,14 @@
     "Sindharta Tanuwijaya <sindharta.tanuwijaya@unity3d.com> (https://github.com/sindharta)"
   ],
   "upm": {
-    "changelog": "### Added\r\n* internal: add YieldUtility and YieldEditorUtility\r\n\r\n### Fixed\r\n* fix: init clips earlier for tracks derived from BaseExtendedClipTrack\r\n* internal: make functions in GUILayoutUtility to internal"
+    "changelog": "### Changed\r\n* internal: use Undo.DestroyObjectImmediate() if applicable inside ObjectUtility.Destroy() \r\n\r\n### Fixed\r\n* fix: null check of PlayableAsset when initializing clip data"
   },
   "upmCi": {
-    "footprint": "f520e98c9e6bf51b7a9994713fa52c3da3d357b1"
+    "footprint": "dacaed122f6bdf955079fc87c6ffb4adfdf467ac"
   },
   "repository": {
     "url": "https://github.com/Unity-Technologies/AnimeSolution.git",
     "type": "git",
-    "revision": "dc7998afd06220e8d6289e326a39bfec6fe59a07"
+    "revision": "ef08b780692b9ce2d2c6fbea166795b98d3f666a"
   }
 }
