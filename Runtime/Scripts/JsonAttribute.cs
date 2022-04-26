@@ -3,8 +3,8 @@
 
 namespace Unity.FilmInternalUtilities {
 [AttributeUsage(AttributeTargets.Class)]
-public class JsonAttribute : Attribute {
-    public JsonAttribute(string path) {
+internal class JsonAttribute : Attribute {
+    internal JsonAttribute(string path) {
         m_path = path;
     }
 

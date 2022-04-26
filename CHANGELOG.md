@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.15.0-preview] - 2022-04-26
+
+### Added
+* internal: open internal FilmInternalUtilities API to Storyboard package
+
+### Changed
+* change: make JsonAttribute to internal 
+* opt: optimize FindSceneComponents() for Unity 2020.3 and up
+
+### Fixed
+* fix: build error on Unity 2021.3.x due to RuntimeInitializeOnLoad being inapplicable to generic classes 
+
+### Removed
+* internal-remove: remove obsolete code in AssetUtility 
+* internal-remove: remove BaseJsonSettings
+
+
 ## [0.14.2-preview] - 2022-04-14
 
 ### Changed

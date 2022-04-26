@@ -17,6 +17,8 @@ internal abstract class MonoBehaviourSingleton<T> : MonoBehaviour where T : Mono
             
             if (null!=m_instance)
                 return m_instance;
+
+            Application.quitting += MonoBehaviourSingleton_Quit;
             
             //Can only be called from the main thread
             T[] instances = Object.FindObjectsOfType<T>();
@@ -42,11 +44,6 @@ internal abstract class MonoBehaviourSingleton<T> : MonoBehaviour where T : Mono
             }
 
         }
-    }
-
-    [RuntimeInitializeOnLoadMethod]
-    static void RunOnStart() {
-        Application.quitting += MonoBehaviourSingleton_Quit;
     }
 
     static void MonoBehaviourSingleton_Quit() {

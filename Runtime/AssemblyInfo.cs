@@ -16,10 +16,9 @@
 [assembly: InternalsVisibleTo("Unity.GoQL.Editor")]
 [assembly: InternalsVisibleTo("Unity.GoQL.EditorTests")]
 
-[assembly: InternalsVisibleTo("Unity.GreasePencil")]
-[assembly: InternalsVisibleTo("Unity.GreasePencil.Tests")]
-[assembly: InternalsVisibleTo("Unity.GreasePencil.Editor")]
-[assembly: InternalsVisibleTo("Unity.GreasePencil.EditorTests")]
+[assembly: InternalsVisibleTo("Unity.Storyboard.Runtime")]
+[assembly: InternalsVisibleTo("Unity.Storyboard.Editor")]
+[assembly: InternalsVisibleTo("Unity.Storyboard.Editor.Tests")]
 
 [assembly: InternalsVisibleTo("Unity.MaterialSwitch")]
 [assembly: InternalsVisibleTo("Unity.MaterialSwitch.Tests")]

@@ -3,9 +3,9 @@ using NUnit.Framework;
 using UnityEditor;
 
 
-namespace Unity.FilmInternalUtilities.Tests {
+namespace Unity.FilmInternalUtilities.EditorTests {
 
-internal class JsonSingletonTests {
+internal class EditorJsonSingletonTests {
 
     [TearDown]
     public void TearDown() {
@@ -16,7 +16,7 @@ internal class JsonSingletonTests {
 
     [Test]
     public void CreateAndSave() {
-        DummyJsonSingleton jsonSingleton = DummyJsonSingleton.GetOrCreateInstance();
+        DummyEditorJsonSingleton jsonSingleton = DummyEditorJsonSingleton.GetOrCreateInstance();
         Assert.IsFalse(jsonSingleton.IsDeserialized());
         string jsonPath = jsonSingleton.GetJsonPath();
         Assert.IsTrue(File.Exists(jsonPath));
@@ -28,12 +28,12 @@ internal class JsonSingletonTests {
     public void CreateAndReload() {
         const int TEST_VALUE = 12345;
 
-        DummyJsonSingleton jsonSingleton = DummyJsonSingleton.GetOrCreateInstance();
+        DummyEditorJsonSingleton jsonSingleton = DummyEditorJsonSingleton.GetOrCreateInstance();
         jsonSingleton.SetValue(TEST_VALUE);
         jsonSingleton.SaveInEditor();
-        DummyJsonSingleton.Close();
+        DummyEditorJsonSingleton.Close();
         
-        jsonSingleton = DummyJsonSingleton.GetOrCreateInstance();
+        jsonSingleton = DummyEditorJsonSingleton.GetOrCreateInstance();
         Assert.IsTrue(jsonSingleton.IsDeserialized());
         Assert.AreEqual(TEST_VALUE, jsonSingleton.GetValue());
     }
@@ -43,13 +43,13 @@ internal class JsonSingletonTests {
     public void DeserializeManually() {
         const int TEST_VALUE = 45678;
         
-        DummyJsonSingleton jsonSingleton = DummyJsonSingleton.GetOrCreateInstance();
+        DummyEditorJsonSingleton jsonSingleton = DummyEditorJsonSingleton.GetOrCreateInstance();
         Assert.IsFalse(jsonSingleton.IsDeserialized());
         jsonSingleton.SetValue(TEST_VALUE);
         jsonSingleton.SaveInEditor();
 
         string             jsonPath              = jsonSingleton.GetJsonPath();
-        DummyJsonSingleton deserializedSingleton = FileUtility.DeserializeFromJson<DummyJsonSingleton>(jsonPath);
+        DummyEditorJsonSingleton deserializedSingleton = FileUtility.DeserializeFromJson<DummyEditorJsonSingleton>(jsonPath);
         Assert.NotNull(deserializedSingleton);
         Assert.AreEqual(TEST_VALUE, deserializedSingleton.GetValue());
     }
@@ -57,9 +57,9 @@ internal class JsonSingletonTests {
 //----------------------------------------------------------------------------------------------------------------------
     
     static void CloseAndDeleteDummyJson() {
-        DummyJsonSingleton jsonSingleton = DummyJsonSingleton.GetOrCreateInstance();
+        DummyEditorJsonSingleton jsonSingleton = DummyEditorJsonSingleton.GetOrCreateInstance();
         string             path          = jsonSingleton.GetJsonPath();
-        DummyJsonSingleton.Close();
+        DummyEditorJsonSingleton.Close();
         if (!File.Exists(path)) 
             return;
         

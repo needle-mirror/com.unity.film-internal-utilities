@@ -9,27 +9,6 @@ namespace Unity.FilmInternalUtilities {
 /// A utility class for executing operations related to Unity assets.
 /// </summary>
 internal static class AssetUtility {
-
-    //[TODO-sin: 2022-2-4] Remove this code
-    [Obsolete]
-    public static string NormalizeAssetPath(string path) {
-        
-        if (string.IsNullOrEmpty(path))
-            return null;
-
-        string slashedPath = path.Replace('\\', '/');
-        string projectRoot = GetApplicationRootPath();
-
-        if (slashedPath.StartsWith(projectRoot)) {
-            string normalizedPath = slashedPath.Substring(projectRoot.Length);
-            if (normalizedPath.Length > 0) {
-                normalizedPath = normalizedPath.Substring(1); //1 for additional '/'
-            }
-
-            return normalizedPath;
-        }
-        return slashedPath;                
-    }
     
     /// <summary>
     /// If the path starts with "Assets/" then returns the relative path under Assets.
@@ -81,22 +60,10 @@ internal static class AssetUtility {
     
 
 //----------------------------------------------------------------------------------------------------------------------
-
-    /// <summary>
-    /// Returns whether the path points to a path under "Assets" folder
-    /// </summary>
-    //[TODO-sin: 2022-2-4] Remove this code
-    [Obsolete] 
-    public static bool IsAssetPath(string path) {
-        string   normalizedPath = NormalizeAssetPath(path);
-        string[] dirs           = normalizedPath.Split('/');
-        return (dirs.Length > 0 && dirs[0] == "Assets");
-    }
     
     /// <summary>
     /// Returns whether the path is under "Assets" folder
-    /// </summary>    
-    
+    /// </summary>        
     public static bool IsAssetPath(string path, out string convertedPath) {
         if (null == path) {
             convertedPath = null;

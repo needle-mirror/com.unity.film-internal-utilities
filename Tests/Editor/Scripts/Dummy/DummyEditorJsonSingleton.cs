@@ -1,13 +1,13 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Unity.FilmInternalUtilities.Tests {
+namespace Unity.FilmInternalUtilities.EditorTests {
 
 [Serializable]
 [Json("Assets/TestDummyJsonSingleton.json")]
-internal class DummyJsonSingleton : BaseJsonSingleton<DummyJsonSingleton> {
+internal class DummyEditorJsonSingleton : BaseJsonSingleton<DummyEditorJsonSingleton> {
 
-    public DummyJsonSingleton() : base() { }
+    public DummyEditorJsonSingleton() : base() { }
 
     protected override int GetLatestVersionV() {
         return 3;
