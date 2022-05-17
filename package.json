@@ -2,7 +2,7 @@
   "displayName": "Film Internal Utilities",
   "name": "com.unity.film-internal-utilities",
   "unity": "2019.4",
-  "version": "0.15.0-preview",
+  "version": "0.15.1-preview",
   "description": "A package containing internal utility functions to support the development of film packages/modules for Unity",
   "dependencies": {
     "com.unity.modules.uielements": "1.0.0",
@@ -11,15 +11,15 @@
   "contributors": [
     "Sindharta Tanuwijaya <sindharta.tanuwijaya@unity3d.com> (https://github.com/sindharta)"
   ],
-  "upm": {
-    "changelog": "### Added\r\n* internal: open internal FilmInternalUtilities API to Storyboard package\r\n\r\n### Changed\r\n* change: make JsonAttribute to internal \r\n* opt: optimize FindSceneComponents() for Unity 2020.3 and up\r\n\r\n### Fixed\r\n* fix: build error on Unity 2021.3.x due to RuntimeInitializeOnLoad being inapplicable to generic classes \r\n\r\n### Removed\r\n* internal-remove: remove obsolete code in AssetUtility \r\n* internal-remove: remove BaseJsonSettings"
+  "_upm": {
+    "changelog": "### Fixed\n* internal-fix: mark changed object as dirty in DrawUndoableGUI() and DrawScrollableTextAreaGUI()"
   },
   "upmCi": {
-    "footprint": "a0c58d8d21a850e9034b5d65af11c1fc3503889b"
+    "footprint": "6844687ed0a519fbc6d0a5fe9c324d451a401f2f"
   },
   "repository": {
     "url": "https://github.com/Unity-Technologies/AnimeSolution.git",
     "type": "git",
-    "revision": "844152f53779fbabacd088cfd74342a07c482491"
+    "revision": "a22351deefa9d31150b57c844595aa54db828fc1"
   }
 }

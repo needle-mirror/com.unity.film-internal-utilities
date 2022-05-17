@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.15.1-preview] - 2022-05-17
+
+### Fixed
+* internal-fix: mark changed object as dirty in DrawUndoableGUI() and DrawScrollableTextAreaGUI() 
+
 ## [0.15.0-preview] - 2022-04-26
 
 ### Added

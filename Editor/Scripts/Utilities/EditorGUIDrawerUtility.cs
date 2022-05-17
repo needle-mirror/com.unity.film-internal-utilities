@@ -99,6 +99,7 @@ internal static class EditorGUIDrawerUtility {
         
         Undo.RecordObject(target, undoText);
         updateFunc(newValue);
+        EditorUtility.SetDirty(target);
         return true;
     }
 
@@ -127,6 +128,7 @@ internal static class EditorGUIDrawerUtility {
         
         Undo.RecordObject(target, prevText);
         updateFunc(newValue);
+        EditorUtility.SetDirty(target);
         return newValue;
     }
 
