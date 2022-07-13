@@ -8,17 +8,10 @@ internal abstract class MonoBehaviourSingleton<T> : MonoBehaviour where T : Mono
 
     [NotNull]
     public static T GetOrCreateInstance() {
-        if (m_isQuitting) {
-            Debug.LogWarning($"A singleton of {typeof(T)} will not be returned because the application is quitting.");
-            return null;
-        }
-        
         lock (m_lock) {
             
             if (null!=m_instance)
                 return m_instance;
-
-            Application.quitting += MonoBehaviourSingleton_Quit;
             
             //Can only be called from the main thread
             T[] instances = Object.FindObjectsOfType<T>();
@@ -44,10 +37,6 @@ internal abstract class MonoBehaviourSingleton<T> : MonoBehaviour where T : Mono
             }
 
         }
-    }
-
-    static void MonoBehaviourSingleton_Quit() {
-        m_isQuitting = true;
     }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -90,9 +79,7 @@ internal abstract class MonoBehaviourSingleton<T> : MonoBehaviour where T : Mono
     //Static vars   
     [CanBeNull] private static          T      m_instance;
     [NotNull]   private static readonly object m_lock       = new object();    
-    
-    private static bool m_isQuitting = false;
-    
+        
 //----------------------------------------------------------------------------------------------------------------------
    
 

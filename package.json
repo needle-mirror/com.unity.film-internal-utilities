@@ -2,7 +2,7 @@
   "displayName": "Film Internal Utilities",
   "name": "com.unity.film-internal-utilities",
   "unity": "2019.4",
-  "version": "0.15.1-preview",
+  "version": "0.15.2-preview",
   "description": "A package containing internal utility functions to support the development of film packages/modules for Unity",
   "dependencies": {
     "com.unity.modules.uielements": "1.0.0",
@@ -12,14 +12,14 @@
     "Sindharta Tanuwijaya <sindharta.tanuwijaya@unity3d.com> (https://github.com/sindharta)"
   ],
   "_upm": {
-    "changelog": "### Fixed\n* internal-fix: mark changed object as dirty in DrawUndoableGUI() and DrawScrollableTextAreaGUI()"
+    "changelog": "### Fixed\n* fix: MonoBehaviourSingleton errors when Configurable Enter Play Mode is turned on"
   },
   "upmCi": {
-    "footprint": "6844687ed0a519fbc6d0a5fe9c324d451a401f2f"
+    "footprint": "033e2ef091286b922044e515a76b58b1f573fb28"
   },
   "repository": {
     "url": "https://github.com/Unity-Technologies/AnimeSolution.git",
     "type": "git",
-    "revision": "a22351deefa9d31150b57c844595aa54db828fc1"
+    "revision": "143840d3252b5cb469f32bde38f81571992d4fb4"
   }
 }

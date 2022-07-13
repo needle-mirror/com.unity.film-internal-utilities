@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.15.2-preview] - 2022-07-13
+
+### Fixed
+* fix: MonoBehaviourSingleton errors when Configurable Enter Play Mode is turned on
+
 ## [0.15.1-preview] - 2022-05-17
 
 ### Fixed
