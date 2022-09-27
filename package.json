@@ -1,8 +1,8 @@
 {
   "displayName": "Film Internal Utilities",
   "name": "com.unity.film-internal-utilities",
-  "unity": "2019.4",
-  "version": "0.15.2-preview",
+  "unity": "2020.3",
+  "version": "0.16.0-preview",
   "description": "A package containing internal utility functions to support the development of film packages/modules for Unity",
   "dependencies": {
     "com.unity.modules.uielements": "1.0.0",
@@ -11,15 +11,12 @@
   "contributors": [
     "Sindharta Tanuwijaya <sindharta.tanuwijaya@unity3d.com> (https://github.com/sindharta)"
   ],
-  "_upm": {
-    "changelog": "### Fixed\n* fix: MonoBehaviourSingleton errors when Configurable Enter Play Mode is turned on"
-  },
   "upmCi": {
-    "footprint": "033e2ef091286b922044e515a76b58b1f573fb28"
+    "footprint": "beb802ae148905fe8bc538c8fa38108fb58dd765"
   },
   "repository": {
     "url": "https://github.com/Unity-Technologies/AnimeSolution.git",
     "type": "git",
-    "revision": "143840d3252b5cb469f32bde38f81571992d4fb4"
+    "revision": "383f989b1faa65b7c6d617150820c61351ff715a"
   }
 }

@@ -58,8 +58,7 @@ internal static class AssetUtility {
         return string.IsNullOrEmpty(dir) ? fileNameNoExt : $"{dir.Replace('\\','/')}/{fileNameNoExt}";
     }
     
-
-//----------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
     
     /// <summary>
     /// Returns whether the path is under "Assets" folder
@@ -74,25 +73,8 @@ internal static class AssetUtility {
         convertedPath = path.Replace('\\', '/');
         return convertedPath.StartsWith(m_assetPathPrefix);
     }
-
-
-
-
-//----------------------------------------------------------------------------------------------------------------------    
-
-    static string GetApplicationRootPath() {
-        if (null != m_appRootPath)
-            return m_appRootPath;
-
-        //Not using Application.dataPath because it may not be called in certain times, e.g: during serialization
-
-        m_appRootPath = System.IO.Directory.GetCurrentDirectory().Replace('\\','/');
-        return m_appRootPath;
-    }
     
-//----------------------------------------------------------------------------------------------------------------------    
-
-    private static string m_appRootPath     = null;
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
     
     private const  string m_assetPathPrefix = "Assets/";
         

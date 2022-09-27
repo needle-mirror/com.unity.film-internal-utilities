@@ -107,6 +107,9 @@ internal static class AssetEditorUtility {
         
         Scene  activeScene = SceneManager.GetActiveScene();
         string assetDir    = string.IsNullOrEmpty(activeScene.path) ? "Assets" : Path.GetDirectoryName(activeScene.path);
+
+        Directory.CreateDirectory(assetDir);
+        
         string assetName   = string.IsNullOrEmpty(obj.name) ? obj.GetType().Name : obj.name;
         string path = AssetDatabase.GenerateUniqueAssetPath(Path.Combine(assetDir, assetName) + $".{ext}");
             
@@ -187,9 +190,9 @@ internal static class AssetEditorUtility {
         return (dirs.Length > 0 && (dirs[0] == "Assets" || dirs[0] == "Packages" || dirs[0] == "Library"));
     }
     
-//----------------------------------------------------------------------------------------------------------------------    
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    static string GetApplicationRootPath() {
+    internal static string GetApplicationRootPath() {
         if (null != m_appRootPath)
             return m_appRootPath;
 
@@ -208,11 +211,9 @@ internal static class AssetEditorUtility {
         
     }
     
-//----------------------------------------------------------------------------------------------------------------------    
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     private static string m_appRootPath = null;
-    
-    
     
 }
 

@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.16.0-preview] - 2022-09-27
+
+### Added
+* internal: add ExposedReferenceEditorUtility class
+
+### Changed
+* package: upgrade minimum required Unity version to 2020.3 
+* internal: make AssetEditorUtility.GetApplicationRootPath() as internal 
+
+### Fixed
+* internal: make sure the directory exists when calling AssetEditorUtility.CreateSceneAsset() 
+
 ## [0.15.2-preview] - 2022-07-13
 
 ### Fixed
