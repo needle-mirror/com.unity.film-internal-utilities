@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.16.1-preview] - 2022-11-23
+
+### Added
+* internal-feat: SceneComponents for caching
+
+### Fixed
+* fix: ensure that ClipData corresponds to the correct TimelineClip during serialization/deserialization
+
 ## [0.16.0-preview] - 2022-09-27
 
 ### Added

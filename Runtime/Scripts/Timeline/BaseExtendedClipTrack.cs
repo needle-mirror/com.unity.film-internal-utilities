@@ -1,8 +1,10 @@
-﻿using UnityEngine.Playables;
+﻿using System;
+using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 namespace Unity.FilmInternalUtilities { 
 /// <summary>
@@ -24,13 +26,16 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack
     /// <inheritdoc/>
     protected override void OnBeforeTrackSerialize() {
         base.OnBeforeTrackSerialize();
-        m_serializedDataCollection = new List<D>();
+        
+#pragma warning disable 612
+        m_obsoleteDataCollection = null;
+#pragma warning restore 612
         
         foreach (TimelineClip clip in GetClips()) {
 
-            if (null == m_dataCollection || !m_dataCollection.TryGetValue(clip, out D data)) {
+            if (!m_clipDataCollection.TryGetValue(clip, out D data)) {
                 BaseExtendedClipPlayableAsset<D> playableAsset = clip.asset as BaseExtendedClipPlayableAsset<D>;
-                Assert.IsNotNull(playableAsset);                 
+                Assert.IsNotNull(playableAsset);
                 data = playableAsset.GetBoundClipData();
             }
 
@@ -38,45 +43,47 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack
                 data = new D();
                 data.SetOwner(clip);
             }
-            
-                       
-            m_serializedDataCollection.Add(data);
+
+            m_clipDataCollection[clip] = data;
         }
     }
     
     /// <inheritdoc/>
     protected override  void OnAfterTrackDeserialize() {
         base.OnAfterTrackDeserialize();
-        m_dataCollection = new Dictionary<TimelineClip, D>();
+        ConvertLegacyData();        
+    }
 
-        if (null == m_serializedDataCollection) {
-            m_serializedDataCollection = new List<D>();
-        }         
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+    private void ConvertLegacyData() {
         
+#pragma warning disable 612        
+        //Conversion from obsolete data
+        if (null == m_obsoleteDataCollection || m_obsoleteDataCollection.Count <= 0) 
+            return;
         IEnumerator<TimelineClip> clipEnumerator = GetClips().GetEnumerator();
-        List<D>.Enumerator sisEnumerator = m_serializedDataCollection.GetEnumerator();
-        while (clipEnumerator.MoveNext() && sisEnumerator.MoveNext()) {
+        List<D>.Enumerator        dataEnumerator = m_obsoleteDataCollection.GetEnumerator();
+        while (clipEnumerator.MoveNext() && dataEnumerator.MoveNext()) {
             TimelineClip clip = clipEnumerator.Current;
             Assert.IsNotNull(clip);
 
-            D sceneCacheClipData = sisEnumerator.Current;
-            Assert.IsNotNull(sceneCacheClipData);           
-            
-            m_dataCollection[clip] = sceneCacheClipData;
-            
+            D sceneCacheClipData = dataEnumerator.Current;
+            Assert.IsNotNull(sceneCacheClipData);
+                
+            m_clipDataCollection[clip] = sceneCacheClipData;
         }
         clipEnumerator.Dispose();
-        sisEnumerator.Dispose();
+        dataEnumerator.Dispose();
+        m_obsoleteDataCollection.Clear();
+#pragma warning restore 612
+        
     }
     
-//----------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
     
     /// <inheritdoc/>
     public sealed override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount) {
                
-        if (null == m_dataCollection) {
-            m_dataCollection = new Dictionary<TimelineClip, D>();
-        }
         InitClipData();
         Playable mixer = CreateTrackMixerInternal(graph, go, inputCount);
         
@@ -102,7 +109,7 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack
                 continue;
 
             //Try to get existing one, either from the collection, or the clip
-            if (!m_dataCollection.TryGetValue(clip, out D clipData)) {
+            if (!m_clipDataCollection.TryGetValue(clip, out D clipData)) {
                 clipData = playableAsset.GetBoundClipData();
             }
 
@@ -111,9 +118,9 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack
             }
             
             //Fix the required data structure
-            m_dataCollection[clip] = clipData;
+            m_clipDataCollection[clip] = clipData;
             clipData.SetOwner(clip);
-            playableAsset.BindClipData(clipData);                        
+            playableAsset.BindClipData(clipData);
         }
         
     }
@@ -122,9 +129,11 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack
     
 //----------------------------------------------------------------------------------------------------------------------
 
-    [HideInInspector][SerializeField] List<D> m_serializedDataCollection = null;
+    [FormerlySerializedAs("m_serializedDataCollection")] [Obsolete][HideInInspector][SerializeField] 
+    List<D> m_obsoleteDataCollection = null;
 
-    private Dictionary<TimelineClip, D> m_dataCollection = null;    
+    [HideInInspector][SerializeField] 
+    private SerializedDictionary<TimelineClip, D> m_clipDataCollection = new SerializedDictionary<TimelineClip, D>();
 }
 
 } //end namespace
