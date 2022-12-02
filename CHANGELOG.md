@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.16.2-preview] - 2022-12-02
+
+### Fixed
+* fix: store the hash code of the PlayableAsset as the key for the ClipData
+
 ## [0.16.1-preview] - 2022-11-23
 
 ### Added

@@ -28,12 +28,14 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack
         base.OnBeforeTrackSerialize();
         
 #pragma warning disable 612
-        m_obsoleteDataCollection = null;
+        m_obsoleteDataCollection     = null;
+        m_obsoleteClipDataCollection = null;
 #pragma warning restore 612
         
         foreach (TimelineClip clip in GetClips()) {
+            int hashCode = clip.asset.GetHashCode();
 
-            if (!m_clipDataCollection.TryGetValue(clip, out D data)) {
+            if (!m_hashClipDataCollection.TryGetValue(hashCode, out D data)) {
                 BaseExtendedClipPlayableAsset<D> playableAsset = clip.asset as BaseExtendedClipPlayableAsset<D>;
                 Assert.IsNotNull(playableAsset);
                 data = playableAsset.GetBoundClipData();
@@ -44,7 +46,7 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack
                 data.SetOwner(clip);
             }
 
-            m_clipDataCollection[clip] = data;
+            m_hashClipDataCollection[hashCode] = data;
         }
     }
     
@@ -58,27 +60,44 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack
     private void ConvertLegacyData() {
         
 #pragma warning disable 612        
-        //Conversion from obsolete data
-        if (null == m_obsoleteDataCollection || m_obsoleteDataCollection.Count <= 0) 
-            return;
-        IEnumerator<TimelineClip> clipEnumerator = GetClips().GetEnumerator();
-        List<D>.Enumerator        dataEnumerator = m_obsoleteDataCollection.GetEnumerator();
-        while (clipEnumerator.MoveNext() && dataEnumerator.MoveNext()) {
-            TimelineClip clip = clipEnumerator.Current;
-            Assert.IsNotNull(clip);
 
-            D sceneCacheClipData = dataEnumerator.Current;
-            Assert.IsNotNull(sceneCacheClipData);
-                
-            m_clipDataCollection[clip] = sceneCacheClipData;
+        //List<D> format
+        if (null != m_obsoleteDataCollection && m_obsoleteDataCollection.Count > 0) {
+            IEnumerator<TimelineClip> clipEnumerator = GetClips().GetEnumerator();
+            List<D>.Enumerator        dataEnumerator = m_obsoleteDataCollection.GetEnumerator();
+            while (clipEnumerator.MoveNext() && dataEnumerator.MoveNext()) {
+                TimelineClip clip = clipEnumerator.Current;
+                Assert.IsNotNull(clip);
+
+                D sceneCacheClipData = dataEnumerator.Current;
+                Assert.IsNotNull(sceneCacheClipData);
+
+                m_hashClipDataCollection[clip.asset.GetHashCode()] = sceneCacheClipData;
+            }
+
+            clipEnumerator.Dispose();
+            dataEnumerator.Dispose();
+            m_obsoleteDataCollection.Clear();
+            return;
         }
-        clipEnumerator.Dispose();
-        dataEnumerator.Dispose();
-        m_obsoleteDataCollection.Clear();
+        
+        // SerializedDictionary<TimelineClip, D> format
+        if (null != m_obsoleteClipDataCollection && m_obsoleteClipDataCollection.Count > 0) {
+            foreach (KeyValuePair<TimelineClip, D> kv in m_obsoleteClipDataCollection) {
+                TimelineClip clip = kv.Key;
+                Assert.IsNotNull(clip);
+
+                D sceneCacheClipData = kv.Value;
+                Assert.IsNotNull(sceneCacheClipData);
+                m_hashClipDataCollection[clip.asset.GetHashCode()] = sceneCacheClipData;
+            } 
+            m_obsoleteClipDataCollection.Clear();
+            return;
+        }
 #pragma warning restore 612
         
     }
-    
+
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------
     
     /// <inheritdoc/>
@@ -108,17 +127,18 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack
             if (null == playableAsset)
                 continue;
 
+            int hashCode = playableAsset.GetHashCode();
             //Try to get existing one, either from the collection, or the clip
-            if (!m_clipDataCollection.TryGetValue(clip, out D clipData)) {
+            if (!m_hashClipDataCollection.TryGetValue(hashCode, out D clipData)) {
                 clipData = playableAsset.GetBoundClipData();
             }
 
             if (null == clipData) {
-                clipData = new D();                
+                clipData = new D();
             }
-            
+
             //Fix the required data structure
-            m_clipDataCollection[clip] = clipData;
+            m_hashClipDataCollection[hashCode] = clipData;
             clipData.SetOwner(clip);
             playableAsset.BindClipData(clipData);
         }
@@ -132,8 +152,20 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack
     [FormerlySerializedAs("m_serializedDataCollection")] [Obsolete][HideInInspector][SerializeField] 
     List<D> m_obsoleteDataCollection = null;
 
+    [FormerlySerializedAs("m_clipDataCollection")] [Obsolete][HideInInspector][SerializeField] 
+    private SerializedDictionary<TimelineClip, D> m_obsoleteClipDataCollection = null;
+    
     [HideInInspector][SerializeField] 
-    private SerializedDictionary<TimelineClip, D> m_clipDataCollection = new SerializedDictionary<TimelineClip, D>();
+    private SerializedDictionary<int, D> m_hashClipDataCollection = new SerializedDictionary<int, D>();
+
+#pragma warning disable 414
+    [HideInInspector][SerializeField] private int m_baseExtendedClipTrackVersion = (int) BaseExtendedClipTrackVersion.SerializedAssetHash_0_16_2;
+#pragma warning restore 414
+
+    enum BaseExtendedClipTrackVersion : int {
+        SerializedAssetHash_0_16_2 = 1,
+    }
+    
 }
 
 } //end namespace
