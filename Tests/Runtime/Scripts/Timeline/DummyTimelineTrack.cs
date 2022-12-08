@@ -5,6 +5,7 @@ using UnityEngine.Timeline;
 
 namespace Unity.FilmInternalUtilities.Tests {
 
+[HideInMenu]
 [TrackClipType(typeof(DummyTimelinePlayableAsset))]
 [Serializable]
 internal class DummyTimelineTrack : BaseExtendedClipTrack<DummyTimelineClipData> {

@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.16.3-preview] - 2022-12-08
+
+### Added
+* internal: add BaseTrackClipPopup class
+* internal: add BitUtility.IsBitSet() function 
+* internal: add TimelineUtility.TimeToFrame() function
+* internal: add EditorWindowExtensions
+
+### Fixed
+* fix: hide dummy track for testing in the Timeline menu 
+* fix: serialize ClipData based on order and use Dictionary for operational uses. 
+
+
 ## [0.16.2-preview] - 2022-12-02
 
 ### Fixed

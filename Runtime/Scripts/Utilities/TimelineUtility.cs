@@ -9,7 +9,7 @@ namespace Unity.FilmInternalUtilities {
 
 internal static class TimelineUtility {
 
-//----------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
     internal static int CalculateNumFrames(TimelineClip clip) {
         double fps       = clip.GetParentTrack().timelineAsset.editorSettings.GetFPS();
         int   numFrames = Mathf.RoundToInt((float)(clip.duration * fps));
@@ -17,24 +17,29 @@ internal static class TimelineUtility {
             
     }
     
-//----------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
     
     internal static double CalculateTimePerFrame(TimelineClip clip) {
         return CalculateTimePerFrame(clip.GetParentTrack());
     }
 
-//----------------------------------------------------------------------------------------------------------------------
     internal static double CalculateTimePerFrame(TrackAsset trackAsset) {
         double fps = trackAsset.timelineAsset.editorSettings.GetFPS();
         double timePerFrame = 1.0f / fps;
         return timePerFrame;
     }
-    
-    
-//----------------------------------------------------------------------------------------------------------------------
 
-    internal static Dictionary<TimelineClip, T> ConvertClipsToClipAssetsDictionary<T>(
-        System.Collections.Generic.IEnumerable<TimelineClip> clips) 
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+    
+    internal static int TimeToFrame(double time, TimelineAsset timelineAsset) {
+        double fps = timelineAsset.editorSettings.GetFPS();
+        return Mathf.RoundToInt((float)(time * fps));
+    }
+    
+    
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    internal static Dictionary<TimelineClip, T> ConvertClipsToClipAssetsDictionary<T>(System.Collections.Generic.IEnumerable<TimelineClip> clips) 
         where T: class, IPlayableAsset
     {
         Dictionary<TimelineClip, T> clipAssets = new Dictionary<TimelineClip, T>();
