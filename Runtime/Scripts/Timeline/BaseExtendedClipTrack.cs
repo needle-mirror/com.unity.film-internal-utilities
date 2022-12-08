@@ -6,6 +6,10 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace Unity.FilmInternalUtilities { 
 /// <summary>
 /// A track which requires its TimelineClip to store BaseClipData as an extension
@@ -14,9 +18,24 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack where D: BaseClipDa
 {
     
     void OnEnable() {
+#if UNITY_EDITOR
+        EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+#endif
         BindClipDataToClip();
         OnEnableInternalV();
     }
+
+    private void OnDisable() {
+#if UNITY_EDITOR
+        EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
+#endif
+   }
+    
+#if UNITY_EDITOR
+    private void OnPlayModeStateChanged(PlayModeStateChange obj) {
+        m_isClipDataDictionaryInitialized = false;
+    }
+#endif
 
     protected virtual void OnEnableInternalV() { }
     

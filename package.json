@@ -2,7 +2,7 @@
   "displayName": "Film Internal Utilities",
   "name": "com.unity.film-internal-utilities",
   "unity": "2020.3",
-  "version": "0.16.3-preview",
+  "version": "0.16.4-preview",
   "description": "A package containing internal utility functions to support the development of film packages/modules for Unity",
   "dependencies": {
     "com.unity.modules.uielements": "1.0.0",
@@ -11,13 +11,16 @@
   "contributors": [
     "Sindharta Tanuwijaya <sindharta.tanuwijaya@unity3d.com> (https://github.com/sindharta)"
   ],
+  "_upm": {
+    "changelog": "### Fixed\n* fix: reset ClipData dictionary state when the playmode changed"
+  },
   "upmCi": {
-    "footprint": "da3aa18e8264eb66241a52a6bef36db3b14e6af6"
+    "footprint": "35b0aa929597f05e3547d46906f92104f494723e"
   },
   "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.film-internal-utilities@0.16/manual/index.html",
   "repository": {
     "url": "https://github.com/Unity-Technologies/AnimeSolution.git",
     "type": "git",
-    "revision": "db4885796faf0cb08e633a6a0fd3faaf599df7b9"
+    "revision": "2f50ab9c4c63973fb3c19ed1530bfbe158a6e61b"
   }
 }

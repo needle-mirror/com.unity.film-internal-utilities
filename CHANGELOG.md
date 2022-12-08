@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.16.4-preview] - 2022-12-08
+
+### Fixed
+* fix: reset ClipData dictionary state when the playmode changed
+
 ## [0.16.3-preview] - 2022-12-08
 
 ### Added
