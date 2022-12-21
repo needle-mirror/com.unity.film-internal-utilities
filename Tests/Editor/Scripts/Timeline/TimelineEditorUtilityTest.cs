@@ -41,9 +41,9 @@ internal class TimelineEditorUtilityTest {
         PlayableDirector director = CreateDirectorWithTimelineAsset(TIMELINE_ASSET_PATH,out TimelineAsset timelineAsset);
         yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(1);
         
-        TimelineClip clip = TimelineEditorUtility.CreateTrackAndClip<DummyTimelineTrack, DummyTimelinePlayableAsset>(
-            timelineAsset, "FirstTrack");
+        TimelineClip clip = TimelineEditorUtility.CreateTrackAndClip<DummyTimelineTrack, DummyTimelinePlayableAsset>(timelineAsset, "FirstTrack");
         VerifyClip(clip);
+        Assert.IsTrue(clip.GetParentTrack().GetClips().Contains<DummyTimelinePlayableAsset>());
         TimelineEditorUtility.SelectDirectorInTimelineWindow(director); //trigger the TimelineWindow's update etc.
         yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(3);
         

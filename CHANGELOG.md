@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.17.0-preview] - 2022-12-21
+
+### Added
+* internal: add EnumerableExtensions
+* internal: add TimelineUtility::DeleteInvalidMarkers() API
+* internal: add TimelineClipExtensions::Contains() API
+* internal: add EditorWindowExtensions.Resize() API
+
+### Changed
+* internal: change the access modifier of GetWindowSize() to internal
+
 ## [0.16.4-preview] - 2022-12-08
 
 ### Fixed

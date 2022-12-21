@@ -1,5 +1,7 @@
 ﻿
+using System.Collections.Generic;
 using JetBrains.Annotations;
+using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
 namespace Unity.FilmInternalUtilities {
@@ -17,6 +19,8 @@ internal static class TimelineClipExtensions {
     
 #endif
 
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+    
     [CanBeNull]
     internal static T GetClipData<T>(this TimelineClip clip) where T: BaseClipData {
         
@@ -27,6 +31,18 @@ internal static class TimelineClipExtensions {
         T clipData = clipAsset.GetBoundClipData();
         return clipData;
     }
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------    
+    internal static bool Contains<T>(this IEnumerable<TimelineClip> clips) where T : PlayableAsset {
+        foreach (TimelineClip clip in clips) {
+            T asset = clip.asset as T;
+            if (null != asset)
+                return true;
+        }
+
+        return false;
+    }
+    
 }
 
 } //end namespace
