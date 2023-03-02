@@ -50,10 +50,16 @@ internal class SceneComponents<T> where T : Component {
         int curFrame = Time.frameCount;
         if (m_prevUpdateFrame == curFrame) return;
 
+        ForceUpdate();
+    }
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal void ForceUpdate() {
         m_cachedComponents.Clear();
         m_cachedComponents.AddRange(FilmInternalUtilities.ObjectUtility.FindSceneComponents<T>());
-        m_prevUpdateFrame = curFrame;
+        m_prevUpdateFrame = Time.frameCount;
     }
+    
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------    
     private readonly List<T> m_cachedComponents = new List<T>();

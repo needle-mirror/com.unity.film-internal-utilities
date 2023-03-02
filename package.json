@@ -2,7 +2,7 @@
   "displayName": "Film Internal Utilities",
   "name": "com.unity.film-internal-utilities",
   "unity": "2020.3",
-  "version": "0.17.0-preview",
+  "version": "0.18.0-preview",
   "description": "A package containing internal utility functions to support the development of film packages/modules for Unity",
   "dependencies": {
     "com.unity.modules.uielements": "1.0.0",
@@ -12,15 +12,15 @@
     "Sindharta Tanuwijaya <sindharta.tanuwijaya@unity3d.com> (https://github.com/sindharta)"
   ],
   "_upm": {
-    "changelog": "### Added\n* internal: add EnumerableExtensions\n* internal: add TimelineUtility::DeleteInvalidMarkers() API\n* internal: add TimelineClipExtensions::Contains() API\n* internal: add EditorWindowExtensions.Resize() API\n\n### Changed\n* internal: change the access modifier of GetWindowSize() to internal"
+    "changelog": "### Added\ninternal: add common classes for analytics\ninternal: add ObjectUtility.DestroyImmediate() API\ninternal: add SceneComponents.ForceUpdate() API\ninternal: add UndoAndRefreshTimelineEditor() API for testing\n\n### Changed\nopt: replace calls of FindObjectsOfType() with FindObjectsByType()\n\n### Fixed\nfix: LayoutUtility errors on Unity 2023.x\n\n### Removed\nremove: unused ObjectUtility code for Unity 2019 or earlier"
   },
   "upmCi": {
-    "footprint": "2ba661116dcd02d3657420865244f3237cb32284"
+    "footprint": "ed76f84039f030d3d847e5237fc188db6b05d0e5"
   },
-  "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.film-internal-utilities@0.17/manual/index.html",
+  "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.film-internal-utilities@0.18/manual/index.html",
   "repository": {
     "url": "https://github.com/Unity-Technologies/AnimeSolution.git",
     "type": "git",
-    "revision": "bbcd880b88a29119c8bdfdba940e6af2c1630b58"
+    "revision": "91da8c915493c2e0fdca61756240639c8ab79be2"
   }
 }

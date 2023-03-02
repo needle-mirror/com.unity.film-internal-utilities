@@ -10,37 +10,14 @@ using UnityEditor;
 namespace Unity.FilmInternalUtilities {
 internal static class ObjectUtility {
 
-#if UNITY_2020_3_OR_NEWER
-
     internal static IEnumerable<T> FindSceneComponents<T>(bool includeInactive = true) where T: UnityEngine.Component {
-        foreach (T comp in Object.FindObjectsOfType<T>(includeInactive)) {
+        FindObjectsInactive findObjectsInactive = includeInactive ? FindObjectsInactive.Include : FindObjectsInactive.Exclude; 
+        foreach (T comp in Object.FindObjectsByType<T>(findObjectsInactive, FindObjectsSortMode.None)) {
             yield return comp;
         }
     }
-#else
-    internal static IEnumerable<T> FindSceneComponents<T>() where T: UnityEngine.Component {
-        foreach (Object o in Resources.FindObjectsOfTypeAll(typeof(T))) {
-            T comp = (T) o;
-            Assert.IsNotNull(comp);
-            GameObject go = comp.gameObject;
 
-            if (!(go.hideFlags == HideFlags.NotEditable || go.hideFlags == HideFlags.HideAndDontSave)
-#if UNITY_EDITOR                    
-                && !EditorUtility.IsPersistent(comp.transform.root.gameObject)
-#endif                    
-               ) 
-            {
-                yield return comp;
-                    
-            }
-        }
-    }
-    
-#endif
-
-
-
-//----------------------------------------------------------------------------------------------------------------------       
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------       
 
     internal static T[] ConvertArray<T>(Object[] objs) where T :  UnityEngine.Object{
         int numObjects = objs.Length;
@@ -51,7 +28,7 @@ internal static class ObjectUtility {
         return ret;
     }
 
-//----------------------------------------------------------------------------------------------------------------------       
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------       
     
     internal static void Destroy(Object obj, bool forceImmediate = false) {
 
@@ -70,7 +47,12 @@ internal static class ObjectUtility {
         }
     }
     
-//----------------------------------------------------------------------------------------------------------------------       
+    internal static void DestroyImmediate<T>(ref T obj) where T : Object {
+        Object.DestroyImmediate(obj);
+        obj = null;
+    }
+    
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------       
     /// <summary>
     /// Create a GameObject with a Component
     /// </summary>

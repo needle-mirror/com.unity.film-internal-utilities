@@ -14,8 +14,8 @@ internal abstract class MonoBehaviourSingleton<T> : MonoBehaviour where T : Mono
                 return m_instance;
             
             //Can only be called from the main thread
-            T[] instances = Object.FindObjectsOfType<T>();
-            int count = instances.Length;
+            T[] instances = Object.FindObjectsByType<T>(FindObjectsSortMode.None);
+            int count     = instances.Length;
 
             switch (count) {
                 case 0: {

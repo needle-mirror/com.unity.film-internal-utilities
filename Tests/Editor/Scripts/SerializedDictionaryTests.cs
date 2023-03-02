@@ -42,7 +42,7 @@ internal class SerializedDictionaryTest {
         Assert.IsNotNull(scene);
         yield return YieldEditorUtility.WaitForFramesAndIncrementUndo(1);
         
-        comp = Object.FindObjectOfType<DummySerializedDictionaryComponent>();
+        comp = Object.FindFirstObjectByType<DummySerializedDictionaryComponent>();
         Assert.IsNotNull(comp);
         int expected    = NUM_ELEMENTS_TO_CREATE - NUM_ELEMENTS_TO_DELETE;
         int numElements = comp.GetNumElements();

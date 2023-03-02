@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.18.0-preview] - 2023-03-02
+
+### Added
+internal: add common classes for analytics
+internal: add ObjectUtility.DestroyImmediate() API
+internal: add SceneComponents.ForceUpdate() API
+internal: add UndoAndRefreshTimelineEditor() API for testing
+
+### Changed
+opt: replace calls of FindObjectsOfType() with FindObjectsByType()
+
+### Fixed
+fix: LayoutUtility errors on Unity 2023.x
+
+### Removed
+remove: unused ObjectUtility code for Unity 2019 or earlier
+
 ## [0.17.0-preview] - 2022-12-21
 
 ### Added
