@@ -40,6 +40,11 @@
 [assembly: InternalsVisibleTo("Unity.StreamingImageSequence.Editor")]
 [assembly: InternalsVisibleTo("Unity.StreamingImageSequence.EditorTests")]
 
+[assembly: InternalsVisibleTo("Unity.Toonshader")]
+[assembly: InternalsVisibleTo("Unity.Toonshader.Tests")]
+[assembly: InternalsVisibleTo("Unity.Toonshader.Editor")]
+[assembly: InternalsVisibleTo("Unity.Toonshader.EditorTests")]
+
 [assembly: InternalsVisibleTo("Unity.VisualCompositor")]
 [assembly: InternalsVisibleTo("Unity.VisualCompositor.Tests")]
 [assembly: InternalsVisibleTo("Unity.VisualCompositor.Editor")]
