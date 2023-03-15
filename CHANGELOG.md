@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.18.3-preview] - 2023-03-15
+
+### Fixed
+* internal-fix: turn ObjectUtility::Destroy to a generic function 
+
 ## [0.18.2-preview] - 2023-03-15
 
 ### Added

@@ -2,7 +2,7 @@
   "displayName": "Film Internal Utilities",
   "name": "com.unity.film-internal-utilities",
   "unity": "2020.3",
-  "version": "0.18.2-preview",
+  "version": "0.18.3-preview",
   "description": "A package containing internal utility functions to support the development of film packages/modules for Unity",
   "dependencies": {
     "com.unity.modules.uielements": "1.0.0",
@@ -12,15 +12,15 @@
     "Sindharta Tanuwijaya <sindharta.tanuwijaya@unity3d.com> (https://github.com/sindharta)"
   ],
   "_upm": {
-    "changelog": "### Added\n* internal: add EnumUtility.ToInspectorNameDictionary() \n* internal: add ObjectUtility.Destroy() with optional undo\n\n### Fixed\n* internal-fix: send actual package version for Analytics"
+    "changelog": "### Fixed\n* internal-fix: turn ObjectUtility::Destroy to a generic function"
   },
   "upmCi": {
-    "footprint": "b9c32f827795dbdf82945353b528d69d0627a08e"
+    "footprint": "14e0ed618bbc0b66c75f1ff4faf7e390f5b853b2"
   },
   "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.film-internal-utilities@0.18/manual/index.html",
   "repository": {
     "url": "https://github.com/Unity-Technologies/AnimeSolution.git",
     "type": "git",
-    "revision": "e7913b7a25986fb7a8cfb7b6838dbb4d6df43b2f"
+    "revision": "d5b445281932522ceece6a32220fd6dfd102c7d7"
   }
 }

@@ -30,12 +30,16 @@ internal static class ObjectUtility {
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------       
     
-    [Obsolete("Replaced by Destroy(obj, forceImmediate, undo)")]
+    [Obsolete("Replaced by Destroy<>(obj, forceImmediate, undo)")]
     internal static void Destroy(Object obj, bool forceImmediate = false) {
-        Destroy(ref obj, forceImmediate, withUndo: true);
+        Destroy<Object>(ref obj, forceImmediate, withUndo: true);
     }
 
-    internal static void Destroy(ref Object obj, bool forceImmediate = false, bool withUndo = true) {
+    internal static void Destroy<T>(T obj, bool forceImmediate = false, bool withUndo = true) where T: Object {
+        Destroy<T>(ref obj, forceImmediate, withUndo);
+    }
+    
+    internal static void Destroy<T>(ref T obj, bool forceImmediate = false, bool withUndo = true) where T: Object {
 
         //Handle differences between editor/runtime when destroying immediately
 #if UNITY_EDITOR
