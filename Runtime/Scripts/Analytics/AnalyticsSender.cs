@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
+using UnityEngine;
 using UnityEngine.Analytics;
 
 #if UNITY_EDITOR
@@ -11,13 +13,20 @@ namespace Unity.FilmInternalUtilities {
 internal static class AnalyticsSender {
 
 #if UNITY_EDITOR
-    internal static void SendEventInEditor<T>(AnalyticsEvent<T> analyticsEvent) {
+    private struct EventDetail {
+        public string assemblyInfo;
+        public string packageName;
+        public string packageVersion;
+    }
+    
+    internal static void SendEventInEditor(AnalyticsEvent analyticsEvent) {
         if (!EditorAnalytics.enabled) {
             return;
         }
 
         if (!IsEventRegistered(analyticsEvent)) {
-            if (!RegisterEvent(analyticsEvent)) {
+            var assembly = Assembly.GetCallingAssembly();
+            if (!RegisterEvent(analyticsEvent, assembly)) {
                 return;
             }
         }
@@ -26,6 +35,7 @@ internal static class AnalyticsSender {
             return;
         }
 
+        analyticsEvent.parameters.actualPackageVersion = m_registeredEvents[analyticsEvent.eventName].packageVersion;
         AnalyticsResult result = EditorAnalytics.SendEventWithLimit(analyticsEvent.eventName, analyticsEvent.parameters, analyticsEvent.version);
         if (result != AnalyticsResult.Ok) {
             return;
@@ -36,11 +46,11 @@ internal static class AnalyticsSender {
     }
     
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------
-    private static bool IsEventRegistered<T>(AnalyticsEvent<T> analyticsEvent) {
-        return m_registeredEvents.Contains(analyticsEvent.eventName);
+    private static bool IsEventRegistered(AnalyticsEvent analyticsEvent) {
+        return m_registeredEvents.ContainsKey(analyticsEvent.eventName);
     }
 
-    private static bool ShouldSendEvent<T>(AnalyticsEvent<T> analyticsEvent) {
+    private static bool ShouldSendEvent(AnalyticsEvent analyticsEvent) {
         if (!m_lastSentDateTime.ContainsKey(analyticsEvent.eventName)) {
             return true;
         }
@@ -49,7 +59,7 @@ internal static class AnalyticsSender {
         return DateTime.Now - lastSentDateTime >= analyticsEvent.minInterval;
     }
 
-    private static bool RegisterEvent<T>(AnalyticsEvent<T> analyticsEvent) {
+    private static bool RegisterEvent(AnalyticsEvent analyticsEvent, Assembly assembly) {
         if (!EditorAnalytics.enabled) {
             return false;
         }
@@ -61,21 +71,38 @@ internal static class AnalyticsSender {
             return false;
         }
 
-        m_registeredEvents.Add(analyticsEvent.eventName);
+        var eventDetails = new EventDetail {
+            assemblyInfo = assembly.FullName,
+        };
+        
+        var packageInfo = UnityEditor.PackageManager.PackageInfo.FindForAssembly(assembly);
+        if (packageInfo != null) {
+            eventDetails.packageName = packageInfo.name;
+            eventDetails.packageVersion = packageInfo.version;
+        }
+
+        m_registeredEvents[analyticsEvent.eventName] = eventDetails;
         return true;
     }
 
+    [Obsolete("Use SendEventInEditor instead")]
+    internal static void SendEventInEditor<T>(AnalyticsEvent<T> analyticsEvent) {
+        SendEventInEditor((AnalyticsEvent)analyticsEvent);
+    }
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------
     
     
     private const string VENDOR_KEY = "unity.anime-toolbox";
 
-    private static readonly HashSet<string>              m_registeredEvents = new HashSet<string>();
-    private static readonly Dictionary<string, DateTime> m_lastSentDateTime = new Dictionary<string, DateTime>();
+    private static readonly Dictionary<string, EventDetail> m_registeredEvents = new Dictionary<string, EventDetail>();
+    private static readonly Dictionary<string, DateTime>    m_lastSentDateTime = new Dictionary<string, DateTime>();
 
 #else
 
+    internal static void SendEventInEditor(AnalyticsEvent analyticsEvent) { }
+
+    [Obsolete("Use SendEventInEditor instead")]
     internal static void SendEventInEditor<T>(AnalyticsEvent<T> analyticsEvent) { }
 
 #endif //UNITY_EDITOR

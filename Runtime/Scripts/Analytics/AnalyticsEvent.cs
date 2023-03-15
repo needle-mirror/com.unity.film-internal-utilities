@@ -1,7 +1,11 @@
 using System;
 
 namespace Unity.FilmInternalUtilities {
-internal abstract class AnalyticsEvent<T> {
+internal class AnalyticsEventData {
+    public string actualPackageVersion;
+}
+
+internal abstract class AnalyticsEvent {
     
     internal abstract string eventName       { get; }
     internal virtual  int    version         => 1;
@@ -11,13 +15,23 @@ internal abstract class AnalyticsEvent<T> {
     // Minimum interval to send this event
     internal virtual TimeSpan minInterval => TimeSpan.Zero;
 
-    internal readonly T parameters;
+    internal readonly AnalyticsEventData parameters;
 
     internal AnalyticsEvent() {
+        parameters = new AnalyticsEventData();
     }
 
-    internal AnalyticsEvent(T eventData) {
+    internal AnalyticsEvent(AnalyticsEventData eventData) {
         parameters = eventData;
+    }
+}
+
+[Obsolete("Use AnalyticsEvent instead")]
+internal abstract class AnalyticsEvent<T> : AnalyticsEvent  {
+    internal AnalyticsEvent() : base() {
+    }
+
+    internal AnalyticsEvent(T eventData) : base() {
     }
 }
 

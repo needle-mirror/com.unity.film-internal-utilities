@@ -30,12 +30,20 @@ internal static class ObjectUtility {
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------       
     
+    [Obsolete("Replaced by Destroy(obj, forceImmediate, undo)")]
     internal static void Destroy(Object obj, bool forceImmediate = false) {
+        Destroy(ref obj, forceImmediate, withUndo: true);
+    }
+
+    internal static void Destroy(ref Object obj, bool forceImmediate = false, bool withUndo = true) {
 
         //Handle differences between editor/runtime when destroying immediately
 #if UNITY_EDITOR
         if (!Application.isPlaying || forceImmediate) {
-            Undo.DestroyObjectImmediate(obj);
+            if (withUndo)
+                Undo.DestroyObjectImmediate(obj);
+            else
+                Object.DestroyImmediate(obj);
         }
 #else
         if (forceImmediate) {
@@ -45,6 +53,8 @@ internal static class ObjectUtility {
         else {
             Object.Destroy(obj);
         }
+
+        obj = null;
     }
     
     internal static void DestroyImmediate<T>(ref T obj) where T : Object {

@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.18.2-preview] - 2023-03-15
+
+### Added
+* internal: add EnumUtility.ToInspectorNameDictionary() 
+* internal: add ObjectUtility.Destroy() with optional undo
+
+### Fixed
+* internal-fix: send actual package version for Analytics 
 
 ## [0.18.1-preview] - 2023-03-03
 
