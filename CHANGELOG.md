@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.18.4-preview] - 2023-03-27
+
+### Fixed
+* fix: disable Analytics on platforms that do not support Analytics
+
 ## [0.18.3-preview] - 2023-03-15
 
 ### Fixed

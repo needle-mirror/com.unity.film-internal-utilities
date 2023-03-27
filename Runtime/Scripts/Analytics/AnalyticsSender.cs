@@ -12,7 +12,7 @@ using UnityEditor;
 namespace Unity.FilmInternalUtilities {
 internal static class AnalyticsSender {
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR && ENABLE_CLOUD_SERVICES_ANALYTICS
     private struct EventDetail {
         public string assemblyInfo;
         public string packageName;
