@@ -15,7 +15,7 @@ internal class ListExtensionsTests {
         RemoveNullMembersAndCheck(new List<string>() {null, null, null, null, null});
     }
 
-//----------------------------------------------------------------------------------------------------------------------       
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
     
     [Test]
     public void MoveListElements() {
@@ -41,15 +41,32 @@ internal class ListExtensionsTests {
         Assert.IsTrue(l.AreElementsEqual(new List<int>() {5, 4, 1, 2, 3}));
     }
     
-//----------------------------------------------------------------------------------------------------------------------       
+    
+    [Test]
+    public void SetListCount() {
+        
+        List<int> l = new List<int>();
+        SetListCountAndCheck(l, 10);
+        SetListCountAndCheck(l, 100);
+        SetListCountAndCheck(l, 3);
+        SetListCountAndCheck(l, 0);
+    }
+    
+    
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
     void RemoveNullMembersAndCheck<T>(IList<T> list) {
         list.RemoveNullMembers();
-        foreach (T member in list) {
+        list.Loop((T member) => {
             Assert.IsNotNull(member);
-        }
-        
-        
+        });
     }
+
+    void SetListCountAndCheck<T>(List<T> list, int count) {
+        list.SetCount(count);
+        Assert.AreEqual(list.Count, count, $"List count: {list.Count}, expected: {count}. ");
+    }
+    
+    
 }
         
 } //end namespace

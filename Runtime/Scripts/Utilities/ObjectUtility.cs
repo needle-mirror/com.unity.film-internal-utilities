@@ -11,12 +11,19 @@ namespace Unity.FilmInternalUtilities {
 internal static class ObjectUtility {
 
     internal static IEnumerable<T> FindSceneComponents<T>(bool includeInactive = true) where T: UnityEngine.Component {
-        FindObjectsInactive findObjectsInactive = includeInactive ? FindObjectsInactive.Include : FindObjectsInactive.Exclude; 
-        foreach (T comp in Object.FindObjectsByType<T>(findObjectsInactive, FindObjectsSortMode.None)) {
-            yield return comp;
+        T[] objs = FindSceneComponentsAsArray<T>(includeInactive);
+        int numObjects = objs.Length;
+        for (int i=0;i<numObjects;++i) {
+            yield return objs[i];
         }
     }
 
+    internal static T[] FindSceneComponentsAsArray<T>(bool includeInactive = true) where T: UnityEngine.Component {
+        FindObjectsInactive findObjectsInactive = includeInactive ? FindObjectsInactive.Include : FindObjectsInactive.Exclude;
+        T[] objs = Object.FindObjectsByType<T>(findObjectsInactive, FindObjectsSortMode.None);
+        return objs;
+    }
+    
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------       
 
     internal static T[] ConvertArray<T>(Object[] objs) where T :  UnityEngine.Object{

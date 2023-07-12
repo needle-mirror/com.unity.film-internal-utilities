@@ -14,15 +14,15 @@ internal static class EnumUtility {
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------    
     internal static List<string> ToInspectorNames(Type t) {
         List<string> ret = new List<string>();
-        foreach (MemberInfo mi in t.GetMembers( BindingFlags.Static | BindingFlags.Public)) {
+        
+        t.GetMembers( BindingFlags.Static | BindingFlags.Public).Loop((MemberInfo mi) => {
             InspectorNameAttribute inspectorNameAttribute = (InspectorNameAttribute) Attribute.GetCustomAttribute(mi, typeof(InspectorNameAttribute));
             if (null == inspectorNameAttribute) {
                 ret.Add(mi.Name);
-                continue;
+                return;
             }
-            
-            ret.Add(inspectorNameAttribute.displayName);			
-        }
+            ret.Add(inspectorNameAttribute.displayName);
+        });
 
         return ret;
     }
@@ -31,7 +31,7 @@ internal static class EnumUtility {
     
     internal static Dictionary<int, string> ToInspectorNameDictionary(Type t) {
         Dictionary<int, string> ret = new Dictionary<int, string>();
-        foreach (FieldInfo fi in t.GetFields( BindingFlags.Static | BindingFlags.Public)) {
+        t.GetFields( BindingFlags.Static | BindingFlags.Public).Loop((FieldInfo fi) => {
             InspectorNameAttribute inspectorNameAttribute = (InspectorNameAttribute) Attribute.GetCustomAttribute(fi, typeof(InspectorNameAttribute));
             
             object valueObj  = fi.GetValue(null); 
@@ -39,11 +39,10 @@ internal static class EnumUtility {
             
             if (null == inspectorNameAttribute) {
                 ret.Add(enumValue, fi.Name);
-                continue;
+                return;
             }
             ret.Add(enumValue, inspectorNameAttribute.displayName);
-        }
-
+        });
         return ret;
     }    
 }

@@ -111,12 +111,12 @@ internal static class FileUtility  {
     public static bool DeleteFilesAndFolders(DirectoryInfo di) {
         //Try to delete the internal contents of the directory 
         try {
-            foreach (FileInfo file in di.EnumerateFiles()) {
-                file.Delete(); 
-            }
-            foreach (DirectoryInfo dir in di.EnumerateDirectories()) {
-                dir.Delete(true); 
-            }
+            di.EnumerateFiles().Loop((FileInfo file) => {
+                file.Delete();
+            });
+            di.EnumerateDirectories().Loop((DirectoryInfo dir) => {
+                dir.Delete(true);
+            });
         } catch (Exception e){
             Debug.LogError($"Exception when deleting {di.FullName}: {e.ToString()} ");
             return false;
@@ -144,13 +144,13 @@ internal static class FileUtility  {
         System.IO.Directory.CreateDirectory(targetDir);
 
         DirectoryInfo sourceDI = new DirectoryInfo(sourceDir);
-        foreach (FileInfo file in sourceDI.EnumerateFiles()) {
+        sourceDI.EnumerateFiles().Loop((FileInfo file) => {
             File.Copy(file.FullName, Path.Combine(targetDir, file.Name), overwrite);
-        }
-        foreach (DirectoryInfo dir in sourceDI.EnumerateDirectories()) {
-            CopyRecursive(dir.FullName, Path.Combine(targetDir, dir.Name), overwrite);
-        }
+        });
 
+        sourceDI.EnumerateDirectories().Loop((DirectoryInfo dir) => {
+            CopyRecursive(dir.FullName, Path.Combine(targetDir, dir.Name), overwrite);
+        });
     }    
     
     

@@ -43,11 +43,11 @@ internal static class TimelineUtility {
         where T: class, IPlayableAsset
     {
         Dictionary<TimelineClip, T> clipAssets = new Dictionary<TimelineClip, T>();
-        foreach (TimelineClip clip in clips) {
+        clips.Loop((TimelineClip clip) => {
             T clipAsset = clip.asset as T;
             Assert.IsNotNull(clipAsset);
             clipAssets.Add(clip, clipAsset);
-        }
+        });
 
         return clipAssets;
     }
@@ -62,8 +62,11 @@ internal static class TimelineUtility {
         TimelineClip nextClipWithPreExtrapolation  = null;
         bool         nextClipChecked               = false; 
                
-        foreach (TimelineClip clip in sortedClips) {
-
+        using var enumerator = sortedClips.GetEnumerator();
+        while (enumerator.MoveNext()) {
+            TimelineClip clip = enumerator.Current;
+            if (null == clip)
+                continue;
 
             if (directorTime < clip.start) {
                 //must check only once since we loop from the start
@@ -87,7 +90,6 @@ internal static class TimelineUtility {
             return;
         }
         
-        
         //check for post-extrapolation
         if (null != prevClipWithPostExtrapolation) {
             outClip  = prevClipWithPostExtrapolation;
@@ -109,15 +111,17 @@ internal static class TimelineUtility {
     
     internal static void DeleteInvalidMarkers<MarkerType>(TrackAsset track) where MarkerType : Marker, ICanRefresh {
         List<Marker> markersToDelete = new List<Marker>();
-        foreach (IMarker m in track.GetMarkers()) {
+        track.GetMarkers().Loop((IMarker m) => {
             MarkerType marker = m as MarkerType;
             if (null == marker)
-                continue;
+                return;
 
             if (!marker.Refresh()) markersToDelete.Add(marker);
-        }
-
-        foreach (Marker marker in markersToDelete) track.DeleteMarker(marker);
+        });
+ 
+        markersToDelete.Loop((Marker marker) => {
+            track.DeleteMarker(marker);
+        });
     }
 
 }

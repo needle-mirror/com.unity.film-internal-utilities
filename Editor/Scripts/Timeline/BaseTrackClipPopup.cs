@@ -26,15 +26,15 @@ internal abstract class BaseTrackClipPopup<PopupType, TrackAssetType> : EditorWi
         m_trackClips.Clear();
         m_trackClips.Add(null); //for "none option"
 
-        foreach (TrackAsset t in timelineAsset.GetOutputTracks()) {
+        timelineAsset.GetOutputTracks().Loop((TrackAsset t) => {
             TrackAssetType track = t as TrackAssetType;
             if (null == track)
-                continue;
+                return;
 
-            foreach (TimelineClip clip in track.GetClips()) {
+            track.GetClips().Loop((TimelineClip clip) => {
                 m_trackClips.Add(clip);
-            }
-        }
+            });
+        });
     }
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------

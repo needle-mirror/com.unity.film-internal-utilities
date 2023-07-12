@@ -15,9 +15,13 @@ internal class ObjectUtilityTests {
         GameObject go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         int instanceID = go.GetInstanceID();
 
-        Assert.IsNotNull(FindComponentWithGameObjectID(ObjectUtility.FindSceneComponents<MeshFilter>(), instanceID));        
-        Assert.IsNotNull(FindComponentWithGameObjectID(ObjectUtility.FindSceneComponents<MeshRenderer>(), instanceID));        
-        Assert.IsNotNull(FindComponentWithGameObjectID(ObjectUtility.FindSceneComponents<SphereCollider>(), instanceID));        
+        Assert.IsNotNull(FindComponentWithGameObjectID(ObjectUtility.FindSceneComponents<MeshFilter>(), instanceID));
+        Assert.IsNotNull(FindComponentWithGameObjectID(ObjectUtility.FindSceneComponents<MeshRenderer>(), instanceID));
+        Assert.IsNotNull(FindComponentWithGameObjectID(ObjectUtility.FindSceneComponents<SphereCollider>(), instanceID));
+
+        Assert.IsNotNull(FindComponentWithGameObjectID(ObjectUtility.FindSceneComponentsAsArray<MeshFilter>(), instanceID));
+        Assert.IsNotNull(FindComponentWithGameObjectID(ObjectUtility.FindSceneComponentsAsArray<MeshRenderer>(), instanceID));
+        Assert.IsNotNull(FindComponentWithGameObjectID(ObjectUtility.FindSceneComponentsAsArray<SphereCollider>(), instanceID));
         
         Object.DestroyImmediate(go);
     }
@@ -33,10 +37,10 @@ internal class ObjectUtilityTests {
         };
 
         GameObject[] gameObjects = ObjectUtility.ConvertArray<GameObject>(objs);
-        foreach (var gameObj in gameObjects) {
+        gameObjects.Loop((GameObject gameObj) => {
             Assert.IsNotNull(gameObj);
             Object.DestroyImmediate(gameObj);
-        }
+        });
     }
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -19,43 +19,46 @@ internal static class ExposedReferenceEditorUtility {
             | BindingFlags.Instance
             | BindingFlags.NonPublic;
 
-        foreach (FieldInfo fieldInfo in t.GetFields(FIND_EXPOSED_REF_BINDING_FLAGS)) {
+        t.GetFields(FIND_EXPOSED_REF_BINDING_FLAGS).Loop((FieldInfo fieldInfo) => {
             //Preliminary check 
             Type fieldType = fieldInfo.FieldType;
             if (fieldType.IsPrimitive || fieldType.IsEnum)
-                continue;
+                return;
             if (fieldType == typeof(string))
-                continue;
+                return;
 
             //Call recursively if not generic  
             if (!fieldType.IsGenericType) {
                 if (fieldType.IsArray) {
                     RecreateReferencesInList((System.Collections.IList)fieldInfo.GetValue(obj), propertyTable);
-                    continue;
+                    return;
                 }
 
                 object child = fieldInfo.GetValue(obj);
                 if (null != child) RecreateReferencesInObject(child, fieldType, propertyTable);
-                continue;
+                return;
             }
 
             if (fieldType.GetGenericTypeDefinition() == typeof(List<>)) {
                 RecreateReferencesInList((System.Collections.IList)fieldInfo.GetValue(obj), propertyTable);
-                continue;
+                return;
             }
 
             if (fieldType.GetGenericTypeDefinition() != typeof(ExposedReference<>))
-                continue;
+                return;
 
             RecreateReference(ref obj, fieldInfo, propertyTable);
-        }
+        });
     }
 
     private static void RecreateReferencesInList(System.Collections.IList list, IExposedPropertyTable propertyTable) {
         if (null == list)
             return;
 
-        foreach (object element in list) RecreateReferencesInObject(element, propertyTable);
+        int numObjects = list.Count;
+        for (int i = 0; i < numObjects; ++i) {
+            RecreateReferencesInObject(list[i], propertyTable);
+        }
     }
 
     internal static void RecreateReference(ref object obj, FieldInfo fieldInfo, IExposedPropertyTable table) {

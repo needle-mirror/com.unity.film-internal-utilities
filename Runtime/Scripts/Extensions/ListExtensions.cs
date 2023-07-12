@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
+using UnityEngine.Assertions;
 
 namespace Unity.FilmInternalUtilities {
 
@@ -35,6 +37,29 @@ internal static class ListExtensions {
         return true;
 
     }
+    
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+    
+    internal static void Loop<T>(this IList<T> list, Action<T> eachAction) {
+        int numElements = list.Count;
+        for (int i = 0; i < numElements; ++i) {
+            eachAction(list[i]);
+        }
+    }
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+    
+    internal static void SetCount<T>(this List<T> list, int reqCount) {
+        Assert.IsTrue(reqCount >= 0);
+        int curCount = list.Count;
+
+        while (list.Count < reqCount) {
+            list.Add(default(T));
+        }
+
+        if (curCount > reqCount) {
+            list.RemoveRange(reqCount, curCount - reqCount);
+        }
+    }   
 }
 
 } //end namespace

@@ -74,13 +74,13 @@ internal class GameObjectUtilityTests {
         Transform ret = null;
         int found = 0;
         GameObject[] roots = SceneManager.GetActiveScene().GetRootGameObjects();
-        foreach (GameObject go in roots) {
+        roots.Loop((GameObject go) => {
             if (go.name != objectName) 
-                continue;
+                return;
 
             ++found;
             ret = go.transform;
-        }
+        });
         
         Assert.AreEqual(1,found);
         Assert.IsNotNull(ret);

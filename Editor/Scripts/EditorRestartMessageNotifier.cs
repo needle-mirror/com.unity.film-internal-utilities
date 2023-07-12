@@ -32,9 +32,9 @@ internal static class EditorRestartMessageNotifier {
         
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("Please restart editor because the following packages have been updated: ");
-        foreach (PackageInfo packageInfo in m_onLoadPackageRequesters) {
+        m_onLoadPackageRequesters.Loop((PackageInfo packageInfo) => {
             sb.AppendLine($"-{packageInfo.name}@{packageInfo.version}");
-        }
+        });
 
         if (EditorUtility.DisplayDialog("Warning", sb.ToString(), "Exit Unity now", "Later")) {
             EditorApplication.Exit(0);

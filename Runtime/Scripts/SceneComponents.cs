@@ -43,6 +43,9 @@ internal class SceneComponents<T> where T : Component {
         return m_cachedComponents;
     }
 
+    internal void SetIncludeInactive(bool includeInactive) {
+        m_includeInactive = includeInactive;
+    }
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------    
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -56,7 +59,7 @@ internal class SceneComponents<T> where T : Component {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal void ForceUpdate() {
         m_cachedComponents.Clear();
-        m_cachedComponents.AddRange(FilmInternalUtilities.ObjectUtility.FindSceneComponents<T>());
+        m_cachedComponents.AddRange(FilmInternalUtilities.ObjectUtility.FindSceneComponentsAsArray<T>(m_includeInactive));
         m_prevUpdateFrame = Time.frameCount;
     }
     
@@ -64,6 +67,7 @@ internal class SceneComponents<T> where T : Component {
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------    
     private readonly List<T> m_cachedComponents = new List<T>();
     private          int     m_prevUpdateFrame  = -1;
+    private          bool    m_includeInactive  = false;
 
     private static SceneComponents<T> m_instance = null;
 }

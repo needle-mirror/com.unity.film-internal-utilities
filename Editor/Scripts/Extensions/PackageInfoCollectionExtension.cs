@@ -20,9 +20,11 @@ internal static class PackageInfoCollectionExtension {
     public static PackageInfo FindPackage(this ReadOnlyCollection<PackageInfo> packageInfoCollection, string packageName) {
         if (string.IsNullOrEmpty(packageName))
             return null;
-        
-        foreach (PackageInfo packageInfo in packageInfoCollection) {
-            if (packageInfo.name == packageName) {
+
+        using var enumerator = packageInfoCollection.GetEnumerator();
+        while (enumerator.MoveNext()) {
+            PackageInfo packageInfo = enumerator.Current;
+            if (null != packageInfo && packageInfo.name == packageName) {
                 return packageInfo;
             }
         }
@@ -40,9 +42,15 @@ internal static class PackageInfoCollectionExtension {
     /// com.unity.foo@0.1.0-preview
     /// com.unity.bar@0.3.0-preview
     /// </returns>
-    public static string JoinToString(this ReadOnlyCollection<PackageInfo> packageInfoCollection) {        
-        StringBuilder sb = new StringBuilder();            
-        foreach (PackageInfo packageInfo in packageInfoCollection) {
+    public static string JoinToString(this ReadOnlyCollection<PackageInfo> packageInfoCollection) {
+        StringBuilder sb = new StringBuilder();
+        
+        using var enumerator = packageInfoCollection.GetEnumerator();
+        while (enumerator.MoveNext()) {
+            PackageInfo packageInfo = enumerator.Current;
+            if (null == packageInfo) {
+                continue;
+            }
             sb.AppendLine($"{packageInfo.name}@{packageInfo.version}");
         }
         return sb.ToString();

@@ -18,20 +18,22 @@ internal static class TransformExtensions {
     }
     
 
-    internal static void SetParent(this ICollection<Transform> collection, Transform parent) {        
-        foreach (Transform t in collection) {
+    internal static void SetParent(this ICollection<Transform> collection, Transform parent) {
+        collection.Loop((Transform t) => {
             t.SetParent(parent);
-        }
+        });
     }
 
     internal static IEnumerable<Transform> FindAllDescendants(this Transform t) {
-        for (int i = 0; i < t.childCount; ++i) {
+        int numChildren = t.childCount;
+        for (int i = 0; i < numChildren; ++i) {
             Transform child = t.GetChild(i);
             yield return child;
-            foreach (Transform grandChild in FindAllDescendants(child)) {
-                yield return grandChild;
-            }
 
+            using var childEnumerator = FindAllDescendants(child).GetEnumerator();
+            while (childEnumerator.MoveNext()) {
+                yield return childEnumerator.Current;
+            }
         }
     }
     

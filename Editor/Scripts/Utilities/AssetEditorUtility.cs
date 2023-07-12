@@ -54,7 +54,7 @@ internal static class AssetEditorUtility {
     }        
     
     //return a set of paths
-    //exactAssetName: the exact asset name without extention
+    //exactAssetName: the exact asset name without extension
     /// <summary>
     /// return a collection of asset paths that match the requirements in the AssetDatabase
     /// </summary>
@@ -67,10 +67,12 @@ internal static class AssetEditorUtility {
         string[] searchInFolders = null, bool shouldSearchSubFolder = true) 
     {
                 
-        string[] guids = AssetDatabase.FindAssets($"{filterPrefix} {exactAssetName}", searchInFolders);
+        string[] guids    = AssetDatabase.FindAssets($"{filterPrefix} {exactAssetName}", searchInFolders);
+        int      numGuids = guids.Length;
         
         HashSet<string> foundAssetPaths = new HashSet<string>();
-        foreach (string guid in guids) {
+        for (int i = 0; i < numGuids; ++i) {
+            string guid = guids[i];
             string path = AssetDatabase.GUIDToAssetPath(guid);
             if (null != exactAssetName && exactAssetName != Path.GetFileNameWithoutExtension(path))
                 continue;
@@ -82,7 +84,8 @@ internal static class AssetEditorUtility {
 
             //exact folder required
             string folder = PathUtility.GetDirectoryName(path,1);
-            foreach (string searchedFolder in searchInFolders) {
+            for (int j = 0; j < searchInFolders.Length; ++j) {
+                string searchedFolder = searchInFolders[j];
                 if (folder != searchedFolder) 
                     continue;
                 
@@ -205,10 +208,9 @@ internal static class AssetEditorUtility {
     private static void EnumerateFiles(string path, string searchPattern, Action<string> onFileFound) {
         DirectoryInfo di    = new DirectoryInfo(path);
         FileInfo[]    files = di.GetFiles(searchPattern);
-        foreach (FileInfo fi in files) {
+        files.Loop((FileInfo fi) => {
             onFileFound(fi.FullName);
-        }
-        
+        });
     }
     
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------

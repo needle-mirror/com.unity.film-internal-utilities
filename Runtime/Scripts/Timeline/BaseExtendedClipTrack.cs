@@ -51,8 +51,9 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack where D: BaseClipDa
         m_obsoleteClipDataCollection     = null;
         m_obsoleteHashClipDataCollection = null;
 #pragma warning restore 612
-        
-        foreach (TimelineClip clip in GetClips()) {
+
+        IEnumerable<TimelineClip> clips = GetClips();
+        clips.Loop((TimelineClip clip) => {
             int hashCode = clip.asset.GetHashCode();
 
             if (!m_assetHashToClipDataCollection.TryGetValue(hashCode, out D clipData)) {
@@ -67,7 +68,7 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack where D: BaseClipDa
             }
 
             m_serializedDataCollection.Add(clipData);
-        }
+        });
 
         m_baseExtendedClipTrackVersion = CUR_VERSION;
     }
@@ -116,14 +117,14 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack where D: BaseClipDa
             m_serializedDataCollection.Clear();
 
             Dictionary<TimelineClip, D> remainingClipData = new Dictionary<TimelineClip, D>(m_obsoleteClipDataCollection);
-            foreach (TimelineClip clip in GetClips()) {
+            GetClips().Loop((TimelineClip clip) => {
                 if (remainingClipData.TryGetValue(clip, out D clipData)) {
                     m_serializedDataCollection.Add( clipData );
                     remainingClipData.Remove(clip);
                 } else {
                     m_serializedDataCollection.Add( null);
                 }
-            }
+            });
 
             FillNullListElementWithAnyDictionaryElement<TimelineClip>(m_serializedDataCollection, remainingClipData);
             m_obsoleteClipDataCollection.Clear();
@@ -135,7 +136,7 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack where D: BaseClipDa
                 m_serializedDataCollection.Clear();
 
                 Dictionary<int, D> remainingClipData = new Dictionary<int, D>(m_obsoleteHashClipDataCollection);
-                foreach (TimelineClip clip in GetClips()) {
+                GetClips().Loop((TimelineClip clip) => {
                     int hashCode = clip.asset.GetHashCode();
                     if (remainingClipData.TryGetValue(hashCode, out D clipData)) {
                         m_serializedDataCollection.Add( clipData );
@@ -143,7 +144,7 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack where D: BaseClipDa
                     } else {
                         m_serializedDataCollection.Add( null);
                     }
-                }
+                });
 
                 FillNullListElementWithAnyDictionaryElement<int>(m_serializedDataCollection, remainingClipData);
                 m_obsoleteHashClipDataCollection.Clear();
@@ -191,11 +192,11 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack where D: BaseClipDa
 //----------------------------------------------------------------------------------------------------------------------
 
     private void BindClipDataToClip() {
-        foreach (TimelineClip clip in GetClips()) {
+        GetClips().Loop((TimelineClip clip) => {
             
             BaseExtendedClipPlayableAsset<D> playableAsset = clip.asset as BaseExtendedClipPlayableAsset<D>;
             if (null == playableAsset)
-                continue;
+                return;
 
             int hashCode = playableAsset.GetHashCode();
             //Try to get existing one, either from the collection, or the clip
@@ -211,7 +212,7 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack where D: BaseClipDa
             m_assetHashToClipDataCollection[hashCode] = clipData;
             clipData.SetOwner(clip);
             playableAsset.BindClipData(clipData);
-        }
+        });
         
     }
 

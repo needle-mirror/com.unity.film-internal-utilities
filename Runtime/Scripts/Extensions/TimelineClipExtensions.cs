@@ -34,7 +34,12 @@ internal static class TimelineClipExtensions {
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------    
     internal static bool Contains<T>(this IEnumerable<TimelineClip> clips) where T : PlayableAsset {
-        foreach (TimelineClip clip in clips) {
+        using var enumerator = clips.GetEnumerator();
+        while (enumerator.MoveNext()) {
+            TimelineClip clip = enumerator.Current;
+            if (null == clip)
+                continue;
+            
             T asset = clip.asset as T;
             if (null != asset)
                 return true;

@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.19.0-preview] - 2023-07-12
+
+### Added
+* internal-feat: add Loop() function for collection structure
+* internal-feat: add List.SetCount() extension
+
+### Changed
+* opt: reduce GC allocation 
+* internal-opt: allow configuring SceneComponents to exclude inactive objects
+
 ## [0.18.4-preview] - 2023-03-27
 
 ### Fixed

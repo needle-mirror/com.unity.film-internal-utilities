@@ -35,10 +35,10 @@ internal class TransformExtensionsTests {
         
         children.SetParent(parentT);
 
-        foreach (Transform t in children) {
+        children.Loop((Transform t) => {
             Assert.IsNotNull(t);
             Assert.AreEqual(parentT, t.parent);
-        }
+        });
     }
     
 //----------------------------------------------------------------------------------------------------------------------    
@@ -68,8 +68,10 @@ internal class TransformExtensionsTests {
         //Children
         CreateChildren(us[0].transform, "children 0", 1,(t)=> {AddUnique(createdObjs, t);});
         CreateChildren(us[1].transform, "children 1", 1,(t)=> {AddUnique(createdObjs, t);});
-        
-        foreach (Transform descendant in ggParent0.transform.FindAllDescendants()) {
+
+        using IEnumerator<Transform> enumerator = ggParent0.transform.FindAllDescendants().GetEnumerator();
+        while (enumerator.MoveNext()) {
+            Transform descendant = enumerator.Current;
             Assert.IsTrue(createdObjs.Contains(descendant));
             createdObjs.Remove(descendant);
         }

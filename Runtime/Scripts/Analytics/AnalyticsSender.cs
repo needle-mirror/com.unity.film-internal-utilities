@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Analytics;
 
 #if UNITY_EDITOR
 using UnityEditor;
+using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 #endif
 
 
@@ -25,7 +27,7 @@ internal static class AnalyticsSender {
         }
 
         if (!IsEventRegistered(analyticsEvent)) {
-            var assembly = Assembly.GetCallingAssembly();
+            Assembly assembly = Assembly.GetCallingAssembly();
             if (!RegisterEvent(analyticsEvent, assembly)) {
                 return;
             }
@@ -43,6 +45,17 @@ internal static class AnalyticsSender {
 
         DateTime now = DateTime.Now;
         m_lastSentDateTime[analyticsEvent.eventName] = now;
+    }
+
+    
+    
+    internal static void FindCallingAssemblyAndPackageInfo([CanBeNull] out Assembly assembly, [CanBeNull] out PackageInfo packageInfo) {
+        assembly    = Assembly.GetCallingAssembly();
+        if (null == assembly) {
+            packageInfo = null;
+            return;
+        }
+        packageInfo = UnityEditor.PackageManager.PackageInfo.FindForAssembly(assembly);
     }
     
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -71,11 +84,11 @@ internal static class AnalyticsSender {
             return false;
         }
 
-        var eventDetails = new EventDetail {
+        EventDetail eventDetails = new EventDetail {
             assemblyInfo = assembly.FullName,
         };
         
-        var packageInfo = UnityEditor.PackageManager.PackageInfo.FindForAssembly(assembly);
+        PackageInfo packageInfo = UnityEditor.PackageManager.PackageInfo.FindForAssembly(assembly);
         if (packageInfo != null) {
             eventDetails.packageName = packageInfo.name;
             eventDetails.packageVersion = packageInfo.version;

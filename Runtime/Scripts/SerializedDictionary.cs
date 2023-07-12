@@ -11,15 +11,14 @@ internal class SerializedDictionary<K,V> : Dictionary<K,V>, ISerializationCallba
     public void OnBeforeSerialize() {
         m_keys.Clear();
         m_values.Clear();
-        foreach (var kv in this) {
+        this.Loop(( KeyValuePair<K,V> kv) => {
             K curKey = kv.Key;
             if (null == curKey)
-                continue;
+                return;
             
             m_keys.Add(kv.Key);
             m_values.Add(kv.Value);
-        }
-        
+        });
     }
 
     public void OnAfterDeserialize() {

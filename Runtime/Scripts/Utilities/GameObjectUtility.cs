@@ -9,8 +9,10 @@ internal static class GameObjectUtility {
     [CanBeNull]
     internal static Transform FindFirstRoot(string objectName) {
 
-        GameObject[] roots = SceneManager.GetActiveScene().GetRootGameObjects();
-        foreach (GameObject go in roots) {
+        GameObject[] roots    = SceneManager.GetActiveScene().GetRootGameObjects();
+        int          numRoots = roots.Length;
+        for (int i=0;i<numRoots;++i)  {
+            GameObject go = roots[i];
             if (go.name != objectName) 
                 continue;
 

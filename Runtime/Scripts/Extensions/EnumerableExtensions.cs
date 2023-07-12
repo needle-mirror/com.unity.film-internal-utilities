@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 
@@ -9,8 +10,10 @@ internal static class EnumerableExtensions {
     //Returns -1 if not found
     internal static int FindIndex<T>(this IEnumerable<T> collection, T elementToFind) {
         int i = 0;
-        foreach (T obj in collection) {
-            if (obj.Equals(elementToFind)) {
+        using var enumerator = collection.GetEnumerator();
+        while (enumerator.MoveNext()) {
+            T obj = enumerator.Current;
+            if (null != obj && obj.Equals(elementToFind)) {
                 return i;
             }
             ++i;
@@ -23,9 +26,10 @@ internal static class EnumerableExtensions {
     internal static bool FindElementAt<T>(this IEnumerable<T> collection, int index, out T ret) {
 
         int i = 0;
-        foreach (T obj in collection) {
+        using var enumerator = collection.GetEnumerator();
+        while (enumerator.MoveNext()) {
             if (i == index) {
-                ret = obj;
+                ret = enumerator.Current;
                 return true;
             }
             ++i;
@@ -33,6 +37,15 @@ internal static class EnumerableExtensions {
 
         ret = default(T);
         return false;
+    }
+    
+    internal static void Loop<T>(this IEnumerable<T> collection, Action<T> eachAction) {
+        
+        using (var enumerator = collection.GetEnumerator()) {
+            while (enumerator.MoveNext()) {
+                eachAction(enumerator.Current);
+            }
+        }
     }
 }
 } //end namespace
