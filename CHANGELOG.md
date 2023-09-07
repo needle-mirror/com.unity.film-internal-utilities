@@ -1,6 +1,10 @@
 # Changelog
 
 
+## [0.19.2-preview] - 2023-09-07
+
+* fix: ensure the initialization of the dictionary in BaseExtendedClipTrack
+
 ## [0.19.1-preview] - 2023-07-12
 
 ### Added

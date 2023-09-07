@@ -85,7 +85,7 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack where D: BaseClipDa
         if (!m_isClipDataDictionaryInitialized) {
             InitClipDataCollection();
         }
-        m_baseExtendedClipTrackVersion = CUR_VERSION;        
+        m_baseExtendedClipTrackVersion = CUR_VERSION;
     }
 
     private void InitClipDataCollection() {
@@ -216,9 +216,7 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack where D: BaseClipDa
         
     }
 
-
-    
-//----------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
     [FormerlySerializedAs("m_clipDataCollection")] [Obsolete][HideInInspector][SerializeField] 
@@ -229,6 +227,9 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack where D: BaseClipDa
     
     [FormerlySerializedAs("m_obsoleteDataCollection")] [HideInInspector][SerializeField] 
     List<D> m_serializedDataCollection = new List<D>();
+
+    //Ensure initialization after recompile
+    [NonSerialized] private bool m_isClipDataDictionaryInitialized = false;
     
     //No direct serialization for this dictionary because asset hash code may be different for different Unity sessions
     private readonly Dictionary<int, D> m_assetHashToClipDataCollection = new Dictionary<int, D>(); 
@@ -243,9 +244,6 @@ internal abstract class BaseExtendedClipTrack<D> : BaseTrack where D: BaseClipDa
         SerializedAssetHash_0_16_2 = 1,
         SerializeClipOrderAndOperateOnAssetHash_0_16_3 = 2, //Use clip order again.
     }
-
-    private bool m_isClipDataDictionaryInitialized = false;
-
 }
 
 } //end namespace
