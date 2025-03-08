@@ -2,9 +2,10 @@
   "displayName": "Film Internal Utilities",
   "name": "com.unity.film-internal-utilities",
   "unity": "2020.3",
-  "version": "0.19.2-preview",
+  "version": "0.19.3-preview",
   "description": "A package containing internal utility functions to support the development of film packages/modules for Unity",
   "dependencies": {
+    "com.unity.modules.imageconversion": "1.0.0",
     "com.unity.modules.uielements": "1.0.0",
     "com.unity.timeline": "1.2.18"
   },
@@ -12,15 +13,15 @@
     "Sindharta Tanuwijaya <sindharta.tanuwijaya@unity3d.com> (https://github.com/sindharta)"
   ],
   "_upm": {
-    "changelog": "* fix: ensure the initialization of the dictionary in BaseExtendedClipTrack"
+    "changelog": "### Changed\ndeps: depend on com.unity.modules.imageconversion@1.0.0"
   },
   "upmCi": {
-    "footprint": "c33363795f09f6f29d6295deda4a68f2e6bf246b"
+    "footprint": "b30bb458f259bd38dff7809739efd48e610094cf"
   },
   "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.film-internal-utilities@0.19/manual/index.html",
   "repository": {
     "url": "https://github.com/Unity-Technologies/AnimeSolution.git",
     "type": "git",
-    "revision": "9884ce80e704ae4f1429b1dc9a620230dc9e48b0"
+    "revision": "a0256945841ba224dfb40a8959cea90b1e647251"
   }
 }

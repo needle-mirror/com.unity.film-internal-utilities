@@ -1,8 +1,13 @@
 # Changelog
 
+## [0.19.3-preview] - 2025-03-08
+
+### Changed
+deps: depend on com.unity.modules.imageconversion@1.0.0
 
 ## [0.19.2-preview] - 2023-09-07
 
+### Fixed
 * fix: ensure the initialization of the dictionary in BaseExtendedClipTrack
 
 ## [0.19.1-preview] - 2023-07-12
