@@ -36,6 +36,9 @@
 [assembly: InternalsVisibleTo("Unity.VisualCompositor.Editor")]
 [assembly: InternalsVisibleTo("Unity.VisualCompositor.EditorTests")]
 
+[assembly: InternalsVisibleTo("Unity.ToonShader")]
+[assembly: InternalsVisibleTo("Unity.ToonShader.Editor")]
+[assembly: InternalsVisibleTo("Unity.ToonShader.EditorTests")]
 
 
 

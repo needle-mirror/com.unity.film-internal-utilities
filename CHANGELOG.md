@@ -1,9 +1,17 @@
 # Changelog
 
+## [0.20.0-preview] - 2025-11-20
+
+### Changed
+
+* internal: open Editor Assembly to ToonShader package
+* internal: add PackageUtility API
+* package: update minimum version to 6000.0 
+
 ## [0.19.3-preview] - 2025-03-08
 
 ### Changed
-deps: depend on com.unity.modules.imageconversion@1.0.0
+* deps: depend on com.unity.modules.imageconversion@1.0.0
 
 ## [0.19.2-preview] - 2023-09-07
 
